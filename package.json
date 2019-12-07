@@ -13,7 +13,9 @@
   "dependencies": {
     "apollo-server-express": "^2.9.9",
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
+    "jsonwebtoken": "^8.5.1",
     "prisma-binding": "^2.3.16",
     "prisma-client-lib": "^1.34.10"
   }
