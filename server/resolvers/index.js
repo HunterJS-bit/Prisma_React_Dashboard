@@ -8,6 +8,8 @@ const mushorooms = [
         info: 'Black Poplar, or “Piopinno” in Italian, is a clustering, meaty mushroom with a nutty and crunchy flavor, it prefers '
     }];
 
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 // Provide resolver functions for your schema fields
 const resolvers = {
     Query: {
@@ -22,9 +24,30 @@ const resolvers = {
         deleteUser: async (ctx, args) => {
             await ctx.prisma.removeUser({ email: args.email });
         },
-        loginUser: (ctx, args) => {
-            const email = args.email;
-            console.log('emailll');
+        loginUser: async (parent, args, ctx) => {
+            let { email, password } = args;
+            const foundUser = await ctx.prisma.user({ email: email });
+            console.log(foundUser);
+            if (!foundUser) {
+                throw new Error('Invalid Login');
+            }
+            const passwordMatch = await bcrypt.compare(password, foundUser.password);
+            if (!passwordMatch) {
+                throw new Error('Invalid Login');
+            }
+
+            const token = jwt.sign(
+                {
+                    id: foundUser.id,
+                    username: foundUser.email,
+                },
+                process.env.secret,
+                {
+                    expiresIn: '30d', // token will expire in 30days
+                },
+            );
+
+            return { ...foundUser, token };
         }
     }
 };

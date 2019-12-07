@@ -13,9 +13,14 @@ const typeDefs = gql`
     name: String,
     text: String
   }
+  type UserPayload {
+    token: String,
+    id: String,
+    email: String,
+  }
   type User {
     id: Int,
-    email: String,
+    email: String!,
     password: String,
     profileImage: String,
   }
@@ -28,7 +33,7 @@ const typeDefs = gql`
   type Mutation {
     createUser(email: String):User,
     deleteUser(id: Int):User,
-    loginUser(email: String, password: String):User,
+    loginUser(email: String, password: String):UserPayload,
   }
 `;
 
