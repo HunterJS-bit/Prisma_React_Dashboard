@@ -1,0 +1,13 @@
+type User {
+  id: ID! @id
+  email: String!
+  password: String!
+}
+
+
+type Mushroom {
+  id: ID! @id,
+  name: String,
+  type: Boolean,
+  info: String,
+}
