@@ -1,6 +1,6 @@
 // mock data
 const users = [{ id: 1, email: 'marko123@gmail.com' }, { id: 2, email: 'marko22@gmail.com' }];
-const user = users[0];
+const user = { email: 'marko je carrrr ' };
 const mushorooms = [
     {
         name: 'Black Poplar “Piopinno”',
@@ -16,8 +16,16 @@ const resolvers = {
         mushorooms: () => mushorooms,
     },
     Mutation: {
-        createUser: () => user,
-        deleteUser: () => user,
+        createUser: async (parent, args, ctx, info) => {
+            await ctx.prisma.createUser({ email: args.email, password: '12313' });
+        },
+        deleteUser: async (ctx, args) => {
+            await ctx.prisma.removeUser({ email: args.email });
+        },
+        loginUser: (ctx, args) => {
+            const email = args.email;
+            console.log('emailll');
+        }
     }
 };
 
