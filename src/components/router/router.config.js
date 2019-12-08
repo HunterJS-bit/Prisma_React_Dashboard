@@ -4,6 +4,7 @@ import About from '../pages/About';
 import Contact from '../pages/Contact';
 import Blog from '../pages/Blog';
 import NotFound from '../pages/NotFound';
+import Dashboard from '../pages/Dashboard';
 
 const routes = [
     {
@@ -26,6 +27,10 @@ const routes = [
     {
         'path': '/login',
         'component': Login
+    },
+    {
+        'path': '/dashboard',
+        'component': Dashboard
     },
     {
         'path': '*',
