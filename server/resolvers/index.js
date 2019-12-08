@@ -47,6 +47,11 @@ const resolvers = {
                 },
             );
 
+            ctx.res.cookie('token', token, {
+                httpOnly: true,
+                maxAge: 1000 * 60 * 60 * 24 * 31,
+            });
+
             return { ...foundUser, token };
         }
     }
