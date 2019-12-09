@@ -3,8 +3,10 @@ const dotenv = require('dotenv');
 const { prisma } = require('./generated/prisma-client')
 const { ApolloServer } = require('apollo-server-express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const typeDefs = require('./schemas');
 const resolvers = require('./resolvers');
+const { jwtValidate } = require('./middleware');
 
 dotenv.config();
 
@@ -25,15 +27,9 @@ const corsOptions = {
     origin: "http://localhost:2000",
     credentials: true
 };
-
+app.use(cookieParser());
 app.use(cors(corsOptions));
-app.use((req, res, next) => {
-    // Cookies that have not been signed
-    console.log('Cookies: ', req.cookies)
-
-    console.log('Signed Cookies: ', req.signedCookies)
-    next();
-})
+app.use(jwtValidate);
 
 server.applyMiddleware({ app, path: "/graphql", cors: false });
 

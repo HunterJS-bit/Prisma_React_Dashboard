@@ -1,19 +1,8 @@
-// mock data
-const users = [{ id: 1, email: 'marko123@gmail.com' }, { id: 2, email: 'marko22@gmail.com' }];
-const user = { email: 'marko je carrrr ' };
-const mushorooms = [
-    {
-        name: 'Black Poplar “Piopinno”',
-        type: false,
-        info: 'Black Poplar, or “Piopinno” in Italian, is a clustering, meaty mushroom with a nutty and crunchy flavor, it prefers '
-    }];
-
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 // Provide resolver functions for your schema fields
 const resolvers = {
     Query: {
-        hello: () => 'Hello world!',
         users: () => users,
         mushorooms: () => mushorooms,
     },
@@ -36,23 +25,29 @@ const resolvers = {
                 throw new Error('Invalid Login');
             }
 
-            const token = jwt.sign(
+            const accesToken = jwt.sign(
                 {
                     id: foundUser.id,
                     username: foundUser.email,
                 },
-                process.env.secret,
+                process.env.accesToken,
                 {
-                    expiresIn: '30d', // token will expire in 30days
+                    expiresIn: '15min', // token will expire in 1day
                 },
             );
+            const refreshToken = jwt.sign({ id: foundUser.id }, process.env.refreshToken, { expiresIn: '7d' });
 
-            ctx.res.cookie('token', token, {
+            ctx.res.cookie('x-access', accesToken, {
                 httpOnly: true,
                 maxAge: 1000 * 60 * 60 * 24 * 31,
             });
 
-            return { ...foundUser, token };
+            ctx.res.cookie('x-refresh', refreshToken, {
+                httpOnly: true,
+                maxAge: 1000 * 60 * 60 * 24 * 31,
+            });
+
+            return { ...foundUser, token: accesToken };
         }
     }
 };
