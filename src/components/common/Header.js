@@ -3,10 +3,17 @@ import { ReactComponent as Logo } from '../../logo.svg';
 import {
     Link
 } from "react-router-dom";
+import AppContext from '../../context/AppContext';
+
 
 class Header extends Component {
 
+    static contextType = AppContext;
+
     render() {
+        let value = this.context;
+        console.log('Current user');
+        console.log(value);
         return (
             <header>
                 <Logo width="50px " height="80px" />

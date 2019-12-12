@@ -43,9 +43,10 @@ class Login extends Component {
                             const response = await logInMutaction();
                             const token = response.data.loginUser.token;
                             if (token) {
-                                this.props.history.push('/dashboard');
+                                // this.props.history.push('/dashboard');
                             }
-                            console.log(token);
+                            console.log('Donneee ');
+                            // console.log(token);
                         }}>
                             <div >
                                 <h3>Login Form</h3>
