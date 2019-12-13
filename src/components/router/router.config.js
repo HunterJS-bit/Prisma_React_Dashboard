@@ -30,7 +30,8 @@ const routes = [
     },
     {
         'path': '/dashboard',
-        'component': Dashboard
+        'component': Dashboard,
+        'private': true
     },
     {
         'path': '*',

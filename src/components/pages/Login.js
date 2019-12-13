@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import { gql } from 'apollo-boost';
+import AppContext from '../../context/AppContext';
 
 const LOGIN_USER_MUTATION = gql`
 mutation Login($email: String!, $password: String!){
     loginUser(email: $email ,password: $password) {
       id
       email
-      token
     }
   }
 `;
@@ -19,21 +19,17 @@ class Login extends Component {
         email: 'djoka@gmail.com',
         password: '1',
     }
-
-    logIn = (e) => {
-        e.preventDefault();
-        console.log('Submiting form');
-
-    }
+    static contextType = AppContext;
 
     handleChange = (e, property) => {
         this.setState({
             [property]: e.target.value
         });
-        console.log(this.state);
     }
 
     render() {
+        let context = this.context;
+        const setUser = context.setUser;
         return (
             <div className="wrap">
                 <Mutation mutation={LOGIN_USER_MUTATION} variables={{ email: this.state.email, password: this.state.password }}>
@@ -41,14 +37,15 @@ class Login extends Component {
                         <form onSubmit={async (e) => {
                             e.preventDefault();
                             const response = await logInMutaction();
-                            const token = response.data.loginUser.token;
-                            if (token) {
+                            const user = response.data.loginUser;
+                            if (user.id) {
+                                setUser(user);
                                 // this.props.history.push('/dashboard');
                             }
                             console.log('Donneee ');
-                            // console.log(token);
                         }}>
                             <div >
+                                {context.userId}
                                 <h3>Login Form</h3>
                                 <p>Login to access your dashboard</p>
                             </div>
