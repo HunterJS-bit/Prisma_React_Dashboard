@@ -3,14 +3,17 @@ const jwt = require('jsonwebtoken');
 
 
 const jwtValidate = async (req, ctx, next) => {
-    console.log('Im hererererer ');
+
     const accessToken = req.cookies['x-access'];
     const refreshToken = req.cookies['x-refresh'];
+
     if (accessToken) {
+        console.log('Access token');
         try {
             const verified = await jwt.verify(accessToken, process.env.accesToken);
+            console.log('Eveything is ok ');
         } catch (error) {
-
+            console.log("error");
         }
 
     }

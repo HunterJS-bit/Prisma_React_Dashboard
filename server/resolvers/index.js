@@ -3,8 +3,19 @@ const jwt = require('jsonwebtoken');
 // Provide resolver functions for your schema fields
 const resolvers = {
     Query: {
-        users: () => users,
-        mushorooms: () => mushorooms,
+        getUsers: async (parent, args, ctx, info) => {
+            return await ctx.prisma.users({});
+        },
+        getConstributors: async (parent, args, ctx, info) => {
+            console.log('GET USERSSS');
+
+            return await ctx.prisma.users({
+                where: { OR: [{ role: 'CONSTRIBUTOR' }, { role: 'ADMIN' }] },
+            });
+        },
+        mushorooms: () => {
+            console.log('Get other POSTS');
+        },
     },
     Mutation: {
         createUser: async (parent, args, ctx, info) => {
@@ -32,22 +43,27 @@ const resolvers = {
                 },
                 process.env.accesToken,
                 {
-                    expiresIn: '15min', // token will expire in 1day
+                    expiresIn: '15min', // token will expire in 15min
                 },
             );
+            // token will expire in 7days
             const refreshToken = jwt.sign({ id: foundUser.id }, process.env.refreshToken, { expiresIn: '7d' });
 
             ctx.res.cookie('x-access', accesToken, {
                 httpOnly: true,
-                maxAge: 1000 * 60 * 60 * 24 * 31,
             });
 
             ctx.res.cookie('x-refresh', refreshToken, {
                 httpOnly: true,
-                maxAge: 1000 * 60 * 60 * 24 * 31,
             });
 
-            return { ...foundUser, token: accesToken };
+            return { ...foundUser };
+        },
+        refreshToken: async (parent, args, ctx, info) => {
+
+        },
+        createPost: async (parent, args, ctx, info) => {
+            console.log('Im herere in resolver')
         }
     }
 };

@@ -11,7 +11,7 @@ const setup = async () => {
 
     const allUsers = users.map(async (user, index) => {
         const userPassword = await bcrypt.hash(user.password, 10);
-        await prisma.createUser({ email: user.email, password: userPassword });
+        await prisma.createUser({ email: user.email, name: user.name, role: user.role, password: userPassword });
     });
     await Promise.all(allUsers);
 

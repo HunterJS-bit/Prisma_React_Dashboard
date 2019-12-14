@@ -1,9 +1,33 @@
-type User {
-  id: ID! @id
-  email: String! @unique
-  password: String!
+enum Role {
+  ADMIN
+  MEMBER
+  CONSTRIBUTOR
 }
 
+type User {
+  id: ID! @id
+  name: String! @unique
+  email: String! @unique
+  password: String!
+  role: Role @default(value: MEMBER)
+}
+
+type Post {
+  id: ID! @id,
+  title: String,
+  content: String,
+}
+
+type File {
+  id: ID! @id
+  name: String!
+  size: Int!
+  secret: String! @unique
+  contentType: String!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+  url: String! @unique
+}
 
 type Mushroom {
   id: ID! @id,

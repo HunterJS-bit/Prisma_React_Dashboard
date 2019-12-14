@@ -6,22 +6,35 @@ const typeDefs = gql`
   type Query {
     hello: String
     mushorooms: [Mushroom]
-    users: [User]
+    getUsers: [User]
+    getConstributors: [User]
   }
   type Article {
     id: Int,
     name: String,
-    text: String
+    text: String,
+    image: String,
   }
   type UserPayload {
-    token: String,
     id: String,
     email: String,
   }
+  input File {
+    filename: String!,
+    mimetype: String!,
+    encoding: String!,
+    name: String,
+    size: Int,
+  }
+  input CreatePost {
+    title: String!,
+    author: String!,
+    content: String!,
+  }
   type User {
-    id: Int,
+    id: String,
+    name: String,
     email: String!,
-    password: String,
     profileImage: String,
   }
   type Mushroom {
@@ -34,6 +47,8 @@ const typeDefs = gql`
     createUser(email: String):User,
     deleteUser(id: Int):User,
     loginUser(email: String, password: String):UserPayload,
+    refreshToken(token: String): String,
+    createPost(input: CreatePost): String,
   }
 `;
 
