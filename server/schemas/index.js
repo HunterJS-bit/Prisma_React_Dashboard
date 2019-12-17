@@ -19,17 +19,11 @@ const typeDefs = gql`
     id: String,
     email: String,
   }
-  input File {
-    filename: String!,
-    mimetype: String!,
-    encoding: String!,
-    name: String,
-    size: Int,
-  }
   input CreatePost {
     title: String!,
     author: String!,
-    content: String!,
+    content: String,
+    image: Upload,
   }
   type User {
     id: String,

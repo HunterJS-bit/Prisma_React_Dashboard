@@ -30,7 +30,6 @@ const corsOptions = {
 app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(jwtValidate);
-
 server.applyMiddleware({ app, path: "/graphql", cors: false });
 
 const PORT = process.env.PORT;

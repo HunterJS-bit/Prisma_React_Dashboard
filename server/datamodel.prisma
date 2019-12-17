@@ -9,20 +9,21 @@ type User {
   name: String! @unique
   email: String! @unique
   password: String!
+  posts: [Post!]!
   role: Role @default(value: MEMBER)
 }
 
 type Post {
-  id: ID! @id,
-  title: String,
-  content: String,
+  id: ID! @id
+  title: String
+  content: String
+  author: User! @relation(link: INLINE)
 }
 
 type File {
   id: ID! @id
   name: String!
   size: Int!
-  secret: String! @unique
   contentType: String!
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt

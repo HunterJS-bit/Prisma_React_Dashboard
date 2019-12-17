@@ -1,5 +1,9 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const cloudinary = require('cloudinary').v2;
+const cloudinaryUpload = require('../utils/cloudinaryUtil');
+
+
 // Provide resolver functions for your schema fields
 const resolvers = {
     Query: {
@@ -63,7 +67,21 @@ const resolvers = {
 
         },
         createPost: async (parent, args, ctx, info) => {
-            console.log('Im herere in resolver')
+            console.log('Im herere in resolver');
+            const { title, author, content, image } = args.input;
+            if (image) {
+                cloudinaryUpload(image, ctx.prisma);
+            }
+            /*
+            const data = await ctx.prisma.createPost({
+                author: {
+                    connect: { id: author }
+                },
+                title,
+                content,
+
+            });
+            */
         }
     }
 };
