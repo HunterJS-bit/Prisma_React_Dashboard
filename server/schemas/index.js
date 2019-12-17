@@ -8,6 +8,7 @@ const typeDefs = gql`
     mushorooms: [Mushroom]
     getUsers: [User]
     getConstributors: [User]
+    getPosts(postCount: Int): [Post]
   }
   type Article {
     id: Int,
@@ -30,6 +31,12 @@ const typeDefs = gql`
     name: String,
     email: String!,
     profileImage: String,
+  }
+  type Post {
+    id: String,
+    title: String,
+    content: String,
+    imgSrc: String,
   }
   type Mushroom {
     id: Int,

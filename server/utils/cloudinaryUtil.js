@@ -16,8 +16,6 @@ const cloudinaryUpload = async (image, prisma) => {
     const streamLoad = cloudinary.uploader.upload_stream({ tags: 'post_image' }, async (error, result) => {
         // if all ok store image INFO in DB
         if (result) {
-            console.log('PRismaaa ');
-            console.log(result);
             await prisma.createFile({
                 name: filename,
                 size: result.bytes,
@@ -31,8 +29,6 @@ const cloudinaryUpload = async (image, prisma) => {
     });
 
     const file_reader = readStream.pipe(streamLoad);
-
-
 };
 
 

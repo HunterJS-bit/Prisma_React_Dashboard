@@ -20,6 +20,9 @@ const resolvers = {
         mushorooms: () => {
             console.log('Get other POSTS');
         },
+        getPosts: async (parent, args, ctx, info) => {
+
+        }
     },
     Mutation: {
         createUser: async (parent, args, ctx, info) => {
@@ -72,7 +75,6 @@ const resolvers = {
             if (image) {
                 cloudinaryUpload(image, ctx.prisma);
             }
-            /*
             const data = await ctx.prisma.createPost({
                 author: {
                     connect: { id: author }
@@ -81,7 +83,6 @@ const resolvers = {
                 content,
 
             });
-            */
         }
     }
 };
