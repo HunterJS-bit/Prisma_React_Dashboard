@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import DropZone from './DropZone';
 import useForm from 'react-hook-form';
 import { gql } from "apollo-boost";
 import { useMutation, useQuery } from '@apollo/react-hooks';
@@ -30,18 +31,13 @@ const CreatePost = () => {
         setValues({ ...values, [name]: value })
     }
 
-    const handleFileChange = (e) => {
-        console.log('Handle file change');
-        const file = e.target.files[0];
+    const handleFile = (file) => {
         setValues({ ...values, image: file });
     }
 
     const onSubmit = (event, e) => {
         console.log('Create Post ');
-        console.log(values);
-        console.log(e);
-        e.target.reset();
-        // createPost({ variables: { input: values } });
+        createPost({ variables: { input: values } });
     };
 
     if (loading) return null;
@@ -81,9 +77,7 @@ const CreatePost = () => {
                         onChange={handleInputChange} ref={register}
                         rows="8" cols="25" placeholder="Here write your content.."></textarea>
                 </p>
-                <p>
-                    <input type="file" name="featured-image" onChange={handleFileChange} />
-                </p>
+                <DropZone file={values.image} updateFile={handleFile} />
                 <p><button type="submit">Create Post</button></p>
 
             </form>
