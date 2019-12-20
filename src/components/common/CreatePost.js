@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import DropZone from './DropZone';
+import Editor from './Editor';
 import useForm from 'react-hook-form';
 import { gql } from "apollo-boost";
 import { useMutation, useQuery } from '@apollo/react-hooks';
@@ -78,6 +79,7 @@ const CreatePost = () => {
                         rows="8" cols="25" placeholder="Here write your content.."></textarea>
                 </p>
                 <DropZone file={values.image} updateFile={handleFile} />
+                <Editor />
                 <p><button type="submit">Create Post</button></p>
 
             </form>
