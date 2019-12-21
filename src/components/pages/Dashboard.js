@@ -21,6 +21,7 @@ export default class Dashboard extends Component {
                         <Switch>
                             {dashRoutes.map((route, index) => (
                                 <Route
+                                    key={index}
                                     name={route.name}
                                     path={route.route}
                                     exact={route.exact}

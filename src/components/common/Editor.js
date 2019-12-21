@@ -3,7 +3,7 @@ import { Editor } from 'react-draft-wysiwyg';
 import { EditorState, convertToRaw } from 'draft-js';
 import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
-const EditorComponent = () => {
+const EditorComponent = (props) => {
 
     const [state, setEditorState] = useState({ editorState: EditorState.createEmpty() })
 
@@ -11,7 +11,8 @@ const EditorComponent = () => {
     const onEditorStateChange = (data) => {
         setEditorState({ ...state, editorState: data });
         const contentState = data.getCurrentContent();
-        console.log(convertToRaw(contentState));
+        const rawState = convertToRaw(contentState);
+        props.saveContent(rawState);
 
     }
 

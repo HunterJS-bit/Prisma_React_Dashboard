@@ -23,7 +23,7 @@ const GET_CONSTRIBUTORS = gql`
 
 const CreatePost = () => {
     const { register, errors, reset, handleSubmit } = useForm();
-    const [values, setValues] = useState({ title: '', author: '', content: '', image: '' })
+    const [values, setValues] = useState({ title: '', author: '', content: '', image: '', excerpt: '' })
     const [createPost, { val }] = useMutation(CREATE_POST);
     const { loading, error, data } = useQuery(GET_CONSTRIBUTORS);
 
@@ -36,8 +36,13 @@ const CreatePost = () => {
         setValues({ ...values, image: file });
     }
 
+    const handleEditor = (content) => {
+        console.log('Handle editor');
+        setValues({ ...values, content: content });
+    }
     const onSubmit = (event, e) => {
         console.log('Create Post ');
+        console.log(values);
         createPost({ variables: { input: values } });
     };
 
@@ -71,15 +76,15 @@ const CreatePost = () => {
                     </select>
                     <span>{errors.author && 'Author is required'} </span>
                 </p>
-                <p className="form-group">
-                    <label htmlFor="content" >Content: </label>
-                    <textarea className="form-control" name="content"
-                        value={values.content}
-                        onChange={handleInputChange} ref={register}
-                        rows="8" cols="25" placeholder="Here write your content.."></textarea>
-                </p>
                 <DropZone file={values.image} updateFile={handleFile} />
-                <Editor />
+                <Editor saveContent={handleEditor} />
+                <p className="form-group">
+                    <label htmlFor="content" >Excerpt: </label>
+                    <textarea className="form-control" name="excerpt"
+                        value={values.excerpt}
+                        onChange={handleInputChange} ref={register}
+                        rows="8" cols="25" placeholder="Write your excerpt ..."></textarea>
+                </p>
                 <p><button type="submit">Create Post</button></p>
 
             </form>
