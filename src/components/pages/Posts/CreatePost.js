@@ -67,6 +67,7 @@ const CreatePost = () => {
                     <label htmlFor="author">Author: </label>
                     <select value={values.author} name="author"
                         onChange={handleInputChange} ref={register({ required: true })}>
+                        <option value=''></option>
                         {
                             data.getConstributors.map((user) => {
 
