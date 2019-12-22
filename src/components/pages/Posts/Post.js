@@ -6,14 +6,14 @@ const Post = (props) => {
     let history = useHistory();
 
     const singlePost = props.post;
-    const editPost = () => {
-        console.log('Editt postt ');
-        history.push({ pathname: "/create-post", state: { detail: singlePost.id } });
+
+    const goToEditPost = () => {
+        history.push({ pathname: "/edit-post", state: { id: singlePost.id } });
     }
 
     return (<React.Fragment>
         <p>{singlePost.title}</p>
-        <button onClick={editPost}>Edit Post </button>
+        <button onClick={goToEditPost}>Edit Post </button>
     </React.Fragment>)
 }
 
