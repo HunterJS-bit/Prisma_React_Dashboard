@@ -3,12 +3,16 @@ const { gql } = require('apollo-server-express');
 
 // Construct a schema, using GraphQL schema language
 const typeDefs = gql`
+
+  scalar JSON
+
   type Query {
     hello: String
     mushorooms: [Mushroom]
     getUsers: [User]
     getConstributors: [User]
     getPosts(postCount: Int): [Post]
+    getPost(id: String): Post
   }
   type Article {
     id: Int,
@@ -23,7 +27,8 @@ const typeDefs = gql`
   input CreatePost {
     title: String!,
     author: String!,
-    content: String,
+    content: JSON,
+    excerpt: String,
     image: Upload,
   }
   type User {
@@ -36,6 +41,8 @@ const typeDefs = gql`
     id: String,
     title: String,
     content: String,
+    excerpt: String,
+    author: User,
     imgSrc: String,
   }
   type Mushroom {

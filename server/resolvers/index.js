@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const cloudinary = require('cloudinary').v2;
 const cloudinaryUpload = require('../utils/cloudinaryUtil');
+const GraphQLJSON = require('graphql-type-json');
 
 
 // Provide resolver functions for your schema fields
@@ -11,18 +11,35 @@ const resolvers = {
             return await ctx.prisma.users({});
         },
         getConstributors: async (parent, args, ctx, info) => {
-            console.log('GET USERSSS');
-
+            // GET CONSTRIBUTORS
             return await ctx.prisma.users({
                 where: { OR: [{ role: 'CONSTRIBUTOR' }, { role: 'ADMIN' }] },
             });
         },
         mushorooms: () => {
             console.log('Get other POSTS');
+
         },
         getPosts: async (parent, args, ctx, info) => {
+            console.log('About to Get Posts ');
+            if (!args.input) {
+                return await ctx.prisma.posts({});
+            }
 
-        }
+        },
+        getPost: async (parent, args, ctx, info) => {
+            if (args.id) {
+                const id = args.id;
+
+                const author = await ctx.prisma.post({ id: id }).author();
+                const post = await ctx.prisma.post({ id });
+
+                return {
+                    ...post,
+                    author
+                };
+            }
+        },
     },
     Mutation: {
         createUser: async (parent, args, ctx, info) => {
@@ -71,20 +88,27 @@ const resolvers = {
         },
         createPost: async (parent, args, ctx, info) => {
             console.log('Im herere in resolver');
-            const { title, author, content, image } = args.input;
+            const { title, author, content, image, excerpt } = args.input;
+            console.log('TESTTTTTTTT');
+            console.log(args.input);
+
             if (image) {
                 cloudinaryUpload(image, ctx.prisma);
             }
+
             const data = await ctx.prisma.createPost({
                 author: {
                     connect: { id: author }
                 },
                 title,
                 content,
+                excerpt,
 
             });
+
         }
-    }
+    },
+    JSON: GraphQLJSON,
 };
 
 module.exports = resolvers;

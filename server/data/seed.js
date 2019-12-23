@@ -1,5 +1,6 @@
 const { prisma } = require('../generated/prisma-client');
 const users = require('./users.json');
+const posts = require('./posts.json');
 const bcrypt = require('bcryptjs');
 /*
 const db = new Prisma({
@@ -9,14 +10,24 @@ const db = new Prisma({
 // setup seed 
 const setup = async () => {
 
-    const allUsers = users.map(async (user, index) => {
+    const Users = users.map(async (user, index) => {
         const userPassword = await bcrypt.hash(user.password, 10);
-        await prisma.createUser({ email: user.email, name: user.name, role: user.role, password: userPassword });
+        return await prisma.createUser({ email: user.email, name: user.name, role: user.role, password: userPassword });
     });
-    await Promise.all(allUsers);
+    const userList = await Promise.all(Users);
 
-    // await prisma.createUser({ email: 'markoo', password: 'milos' })
-    console.log('Doneeee');
+    const postCreator = userList[0];
+
+    const Posts = posts.map(async (post, index) => {
+        return await prisma.createPost({
+            author: {
+                connect: { id: postCreator.id }
+            }, title: post.title, excerpt: post.excerpt
+        });
+    });
+
+    const postList = await Promise.all(Posts);
+
 };
 
 setup();
