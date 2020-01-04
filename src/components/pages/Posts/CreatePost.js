@@ -3,7 +3,7 @@ import DropZone from './../../common/DropZone';
 import Editor from './../../common/Editor';
 import useForm from 'react-hook-form';
 import { gql } from "apollo-boost";
-import { Form, Icon, Input, Button, Select } from 'antd';
+import { Form, Input, Button, Select } from 'antd';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 
 const { Option } = Select;
@@ -41,11 +41,13 @@ const CreatePost = () => {
         },
     };
 
-    const handleInputChange = e => {
-        // const { name, value } = e.target;
-        // todo check select dropdown not working as expected
-        console.log(e);
-        // setValues({ ...values, [name]: value })
+    const handleInputChange = (e, event) => {
+        let { name, value } = event.target;
+        setValues({ ...values, [name]: value })
+    }
+
+    const handleSelect = (value) => {
+        setValues({ ...values, ['author']: value })
     }
 
     const handleFile = (file) => {
@@ -59,7 +61,7 @@ const CreatePost = () => {
     const onSubmit = (event, e) => {
         console.log('Create Post ');
         console.log(values);
-        createPost({ variables: { input: values } });
+        // createPost({ variables: { input: values } });
     };
 
     if (loading) return null;
@@ -71,12 +73,12 @@ const CreatePost = () => {
             <Form {...formItemLayout} onSubmit={handleSubmit(onSubmit)} className="login-form">
                 <Form.Item label="Title">
                     <Input
-                        prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                        placeholder="Title"
-                    />
+                        name="title"
+                        onChange={(value, event) => handleInputChange(event, value)}
+                        placeholder="Title" />
                 </Form.Item>
                 <Form.Item label="Author">
-                    <Select defaultValue={{ name: 'author' }} labelInValue value={values.author} style={{ width: 120 }} onChange={handleInputChange}>
+                    <Select defaultValue="''" value={values.author} style={{ width: 120 }} onSelect={(value, event) => handleSelect(value)}>
                         {
                             data.getConstributors.map((user) => {
                                 return (<Option key={user.name} value={user.id}>{user.name}</Option>);
@@ -92,7 +94,7 @@ const CreatePost = () => {
                     <Editor saveContent={handleEditor} />
                 </Form.Item>
                 <Form.Item label="Excerpt">
-                    <TextArea value={values.excerpt} placeholder="Write your excerpt ..." allowClear onChange={handleInputChange} />
+                    <TextArea name="excerpt" value={values.excerpt} placeholder="Write your excerpt ..." allowClear onChange={(value, event) => handleInputChange(event, value)} />
                 </Form.Item>
                 <Button type="primary" htmlType="submit" className="form-submit-btn">
                     Create Post

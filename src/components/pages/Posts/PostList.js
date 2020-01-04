@@ -1,7 +1,8 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
-import { Table, Divider, Button } from 'antd';
+import { Table } from 'antd';
+import TableActions from './PostTableAction';
 
 
 const GET_POSTS = gql`
@@ -40,11 +41,7 @@ const PostList = () => {
       title: 'Action',
       key: 'action',
       render: (text, record) => (
-        <span>
-          <Button type="primary">Edit Post</Button>
-          <Divider type="vertical" />
-          <Button type="danger">Delete Post</Button>
-        </span>
+        <TableActions post={record} />
       ),
     },
   ];
