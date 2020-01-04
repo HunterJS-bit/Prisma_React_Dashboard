@@ -10,7 +10,6 @@ const GET_POSTS = gql`
     getPosts {
       id
       title
-      excerpt
       author {
          name
       }

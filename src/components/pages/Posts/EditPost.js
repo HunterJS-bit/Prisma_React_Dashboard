@@ -21,6 +21,7 @@ const EditPost = (props) => {
     const PostID = props.history.location.state.id;
     const { register, errors, reset, handleSubmit } = useForm();
     let POST = { title: '', author: '', content: '', image: '', excerpt: '' };
+    
     const [values, setValues] = useState({
         title: POST.title, author: POST.author, content: POST.content, image: POST.image, excerpt: POST.excerpt
     });
@@ -36,15 +37,31 @@ const EditPost = (props) => {
     const fetchedPost = data.getPost;
     if (fetchedPost) {
         const { title, author, content, image, excerpt } = fetchedPost;
-        console.log('Fettched post ');
-        console.log(fetchedPost);
+    
     }
 
-    console.log('Evo ih vrednosttt ii ');
-    console.log(values);
+
 
     return (
-        <h1>Show POSTT INFO</h1>);
+        <div className="edit-form">
+            <h2>Edit Post</h2>
+            <fieldset>
+                <form>
+                    <p className="form-group">
+                        <label htmlFor="title">Post Title: </label>
+                        <input type="text" name="title" id="name"
+                            value={values.title}
+                            aria-invalid={errors.title ? 'true' : 'false'}
+                            aria-describedby="error-title-required error-title-maxLength"
+                            ref={register({ required: true, maxlength: 20 })}
+                            placeholder="Name" />
+                        <span>{errors.title && 'Title is required'} </span>
+                    </p>
+
+                </form>
+            </fieldset>
+
+        </div>);
 }
 
 
