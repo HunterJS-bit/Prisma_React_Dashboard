@@ -106,6 +106,11 @@ const resolvers = {
 
             });
 
+        },
+        removePost: async (parent, args, ctx, info) => {
+            const id = args.id;
+            await ctx.prisma.deletePost({ id });
+            return 'ok';
         }
     },
     JSON: GraphQLJSON,

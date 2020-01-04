@@ -57,6 +57,7 @@ const typeDefs = gql`
     loginUser(email: String, password: String):UserPayload,
     refreshToken(token: String): String,
     createPost(input: CreatePost): String,
+    removePost(id: String): String,
   }
 `;
 
