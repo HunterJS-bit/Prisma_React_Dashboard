@@ -3,8 +3,11 @@ import DropZone from './../../common/DropZone';
 import Editor from './../../common/Editor';
 import useForm from 'react-hook-form';
 import { gql } from "apollo-boost";
+import { Form, Icon, Input, Button, Select } from 'antd';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 
+const { Option } = Select;
+const { TextArea } = Input;
 
 const CREATE_POST = gql`
 mutation createPost($input: CreatePost!) {
@@ -27,9 +30,22 @@ const CreatePost = () => {
     const [createPost, { val }] = useMutation(CREATE_POST);
     const { loading, error, data } = useQuery(GET_CONSTRIBUTORS);
 
+    const formItemLayout = {
+        labelCol: {
+            xs: { span: 24 },
+            sm: { span: 8 },
+        },
+        wrapperCol: {
+            xs: { span: 24 },
+            sm: { span: 16 },
+        },
+    };
+
     const handleInputChange = e => {
-        const { name, value } = e.target;
-        setValues({ ...values, [name]: value })
+        // const { name, value } = e.target;
+        // todo check select dropdown not working as expected
+        console.log(e);
+        // setValues({ ...values, [name]: value })
     }
 
     const handleFile = (file) => {
@@ -52,43 +68,38 @@ const CreatePost = () => {
     return (<section id="create-post">
         <h2>Create Post</h2>
         <fieldset>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <p className="form-group">
-                    <label htmlFor="title">Post Title: </label>
-                    <input type="text" name="title" id="name"
-                        value={values.title} onChange={handleInputChange}
-                        aria-invalid={errors.title ? 'true' : 'false'}
-                        aria-describedby="error-title-required error-title-maxLength"
-                        ref={register({ required: true, maxlength: 20 })}
-                        placeholder="Name" />
-                    <span>{errors.title && 'Title is required'} </span>
-                </p>
-                <p className="form-group">
-                    <label htmlFor="author">Author: </label>
-                    <select value={values.author} name="author"
-                        onChange={handleInputChange} ref={register({ required: true })}>
-                        <option value=''></option>
+            <Form {...formItemLayout} onSubmit={handleSubmit(onSubmit)} className="login-form">
+                <Form.Item label="Title">
+                    <Input
+                        prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                        placeholder="Title"
+                    />
+                </Form.Item>
+                <Form.Item label="Author">
+                    <Select defaultValue={{ name: 'author' }} labelInValue value={values.author} style={{ width: 120 }} onChange={handleInputChange}>
                         {
                             data.getConstributors.map((user) => {
-
-                                return (<option key={user.name} value={user.id}>{user.name} </option>);
+                                return (<Option key={user.name} value={user.id}>{user.name}</Option>);
                             })
                         }
-                    </select>
-                    <span>{errors.author && 'Author is required'} </span>
-                </p>
-                <DropZone file={values.image} updateFile={handleFile} />
-                <Editor saveContent={handleEditor} />
-                <p className="form-group">
-                    <label htmlFor="content" >Excerpt: </label>
-                    <textarea className="form-control" name="excerpt"
-                        value={values.excerpt}
-                        onChange={handleInputChange} ref={register}
-                        rows="8" cols="25" placeholder="Write your excerpt ..."></textarea>
-                </p>
-                <p><button type="submit">Create Post</button></p>
+                        <Option value=""></Option>
+                    </Select>
+                </Form.Item>
+                <Form.Item>
+                    <DropZone file={values.image} updateFile={handleFile} />
+                </Form.Item>
+                <Form.Item>
+                    <Editor saveContent={handleEditor} />
+                </Form.Item>
+                <Form.Item label="Excerpt">
+                    <TextArea value={values.excerpt} placeholder="Write your excerpt ..." allowClear onChange={handleInputChange} />
+                </Form.Item>
+                <Button type="primary" htmlType="submit" className="form-submit-btn">
+                    Create Post
+                 </Button>
 
-            </form>
+            </Form>
+
         </fieldset>
     </section>);
 
