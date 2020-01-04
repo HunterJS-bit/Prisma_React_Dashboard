@@ -11,6 +11,9 @@ const GET_POSTS = gql`
       id
       title
       excerpt
+      author {
+         name
+      }
     }
   }
 `;
@@ -38,6 +41,11 @@ const PostList = () => {
       key: 'author',
     },
     {
+      title: 'Publish Status',
+      dataIndex: 'isPublished',
+      key: 'isPublished',
+    },
+    {
       title: 'Action',
       key: 'action',
       render: (text, record) => (
@@ -52,7 +60,7 @@ const PostList = () => {
   if (error) return <p>ERROR</p>;
 
   const { getPosts } = data;
-
+  console.log(getPosts);
   return (
     <ul className="list-group">
       <Table {...tableProps} columns={columns} dataSource={getPosts} />
