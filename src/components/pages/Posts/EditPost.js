@@ -32,8 +32,8 @@ const GET_CONSTRIBUTORS = gql`
 `;
 
 const UPDATE_POST = gql`
-mutation updatePost($input: CreatePost!){
-  updatePost(input: $input) {
+mutation updatePost($id: String!, $input: CreatePost!){
+  updatePost(id: $id, input: $input) {
     id
   }
 }
@@ -41,20 +41,30 @@ mutation updatePost($input: CreatePost!){
 
 const EditPost = (props) => {
     const _id = props.history.location.state.id;
-    const [values, setValues] = useState({ title: '', author: '', content: '', image: '', excerpt: '' })
+
 
     const { loadingConstributors, errorConst, data: constributors } = useQuery(GET_CONSTRIBUTORS);
     const { data: post, loading, error } = useQuery(GET_POST, {
         variables: { id: _id },
     });
+
+    const [values, setValues] = useState({
+        title: post ? post.title : '', author: post ? post.author : '',
+        content: post ? post.content : '', image: post ? post.image : '', excerpt: post ? post.excerpt : ''
+    })
+
     const [updatePost] = useMutation(UPDATE_POST);
 
 
 
     if (loading) return <p>LOADING</p>;
     if (error) return <p>ERROR</p>;
+    let fetchedPost;
+    if (post) {
+        console.log('Post is hererer ');
+        fetchedPost = post.getPost;
+    }
 
-    const fetchedPost = post.getPost;
 
     const handleInputChange = (e, event) => {
         let { name, value } = event.target;
@@ -78,7 +88,7 @@ const EditPost = (props) => {
         e.preventDefault();
         console.log('Submit form');
         console.log(values);
-        updatePost({ variables: { input: values } })
+        updatePost({ variables: { id: _id, input: values } })
     }
 
     return (

@@ -62,7 +62,7 @@ const PostList = () => {
   console.log(getPosts);
   return (
     <ul className="list-group">
-      <Table {...tableProps} columns={columns} dataSource={getPosts} />
+      <Table {...tableProps} columns={columns} dataSource={getPosts} rowKey="id" />
     </ul>);
 }
 
