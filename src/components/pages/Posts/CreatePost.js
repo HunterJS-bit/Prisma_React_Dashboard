@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import DropZone from './../../common/DropZone';
 import Editor from './../../common/Editor';
-import useForm from 'react-hook-form';
 import { gql } from "apollo-boost";
 import { Form, Input, Button, Select } from 'antd';
 import { useMutation, useQuery } from '@apollo/react-hooks';
@@ -25,7 +24,6 @@ const GET_CONSTRIBUTORS = gql`
 `;
 
 const CreatePost = () => {
-    const { register, errors, reset, handleSubmit } = useForm();
     const [values, setValues] = useState({ title: '', author: '', content: '', image: '', excerpt: '' })
     const [createPost, { val }] = useMutation(CREATE_POST);
     const { loading, error, data } = useQuery(GET_CONSTRIBUTORS);
@@ -70,7 +68,7 @@ const CreatePost = () => {
     return (<section id="create-post">
         <h2>Create Post</h2>
         <fieldset>
-            <Form {...formItemLayout} onSubmit={handleSubmit(onSubmit)} className="login-form">
+            <Form {...formItemLayout} onSubmit={onSubmit} className="createPost-form">
                 <Form.Item label="Title">
                     <Input
                         name="title"

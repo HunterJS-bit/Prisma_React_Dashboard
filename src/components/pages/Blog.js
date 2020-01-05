@@ -8,6 +8,7 @@ query ($postCount: Int!) {
     getPosts(postCount: $postCount) {
       id
       title
+      excerpt
     }
   }
 `;
@@ -24,7 +25,9 @@ class Blog extends Component {
                     const { getPosts } = data;
                     console.log(getPosts);
                     return (<section id="blog">
-                        <h1>Markooo</h1>
+                        {getPosts.map((post) =>
+                            <Card key={post.title} post={post}></Card>
+                        )}
                     </section>);
                 }}
             </Query>

@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
+import DropZone from './../../common/DropZone';
+import Editor from './../../common/Editor'
 import gql from 'graphql-tag';
-import { useQuery } from '@apollo/react-hooks';
-import useForm from 'react-hook-form';
+import { Form, Input, Button, Select } from 'antd';
+import { useQuery, useMutation } from '@apollo/react-hooks';
+
+const { Option } = Select;
+const { TextArea } = Input;
 
 const GET_POST = gql`
 query getPost($id: String!) {
@@ -17,48 +22,102 @@ query getPost($id: String!) {
   }
 `;
 
+const GET_CONSTRIBUTORS = gql`
+  {
+    getConstributors {
+      id
+      name
+    }
+  }
+`;
+
+const UPDATE_POST = gql`
+mutation updatePost($input: CreatePost!){
+  updatePost(input: $input) {
+    id
+  }
+}
+`;;
+
 const EditPost = (props) => {
-    const PostID = props.history.location.state.id;
-    const { register, errors, reset, handleSubmit } = useForm();
-    let POST = { title: '', author: '', content: '', image: '', excerpt: '' };
-    
-    const [values, setValues] = useState({
-        title: POST.title, author: POST.author, content: POST.content, image: POST.image, excerpt: POST.excerpt
+    const _id = props.history.location.state.id;
+    const [values, setValues] = useState({ title: '', author: '', content: '', image: '', excerpt: '' })
+
+    const { loadingConstributors, errorConst, data: constributors } = useQuery(GET_CONSTRIBUTORS);
+    const { data: post, loading, error } = useQuery(GET_POST, {
+        variables: { id: _id },
     });
+    const [updatePost] = useMutation(UPDATE_POST);
 
 
-    const { data, loading, error } = useQuery(GET_POST, {
-        variables: { id: PostID },
-    });
 
     if (loading) return <p>LOADING</p>;
     if (error) return <p>ERROR</p>;
 
-    const fetchedPost = data.getPost;
-    if (fetchedPost) {
-        const { title, author, content, image, excerpt } = fetchedPost;
-    
+    const fetchedPost = post.getPost;
+
+    const handleInputChange = (e, event) => {
+        let { name, value } = event.target;
+        setValues({ ...values, [name]: value });
     }
 
+    const handleSelect = (value) => {
+        setValues({ ...values, ['author']: value })
+    }
 
+    const handleFile = (file) => {
+        setValues({ ...values, image: file });
+    }
+
+    const handleEditor = (content) => {
+        console.log('Handle editor');
+        setValues({ ...values, content: content });
+    }
+
+    const submitForm = (e) => {
+        e.preventDefault();
+        console.log('Submit form');
+        console.log(values);
+        updatePost({ variables: { input: values } })
+    }
 
     return (
         <div className="edit-form">
             <h2>Edit Post</h2>
             <fieldset>
-                <form>
-                    <p className="form-group">
-                        <label htmlFor="title">Post Title: </label>
-                        <input type="text" name="title" id="name"
-                            value={values.title}
-                            aria-invalid={errors.title ? 'true' : 'false'}
-                            aria-describedby="error-title-required error-title-maxLength"
-                            ref={register({ required: true, maxlength: 20 })}
-                            placeholder="Name" />
-                        <span>{errors.title && 'Title is required'} </span>
-                    </p>
+                <Form onSubmit={submitForm} className="editPost-form">
+                    <Form.Item label="Title">
+                        <Input
+                            name="title"
+                            defaultValue={fetchedPost.title}
+                            onChange={(value, event) => handleInputChange(event, value)}
+                            placeholder="Title" />
+                    </Form.Item>
 
-                </form>
+                    <Form.Item label="Author">
+                        <Select defaultValue={fetchedPost.author.name} style={{ width: 120 }} onSelect={(value, event) => handleSelect(value)}>
+                            {
+                                constributors &&
+                                constributors.getConstributors && constributors.getConstributors.map((user) => {
+                                    return (<Option key={user.name} value={user.id}>{user.name}</Option>);
+                                })
+                            }
+                            <Option value=""></Option>
+                        </Select>
+                    </Form.Item>
+                    <Form.Item>
+                        <DropZone file={fetchedPost.image} updateFile={handleFile} />
+                    </Form.Item>
+                    <Form.Item>
+                        <Editor saveContent={handleEditor} />
+                    </Form.Item>
+                    <Form.Item label="Excerpt">
+                        <TextArea name="excerpt" defaultValue={fetchedPost.excerpt} placeholder="Write your excerpt ..." allowClear onChange={(value, event) => handleInputChange(event, value)} />
+                    </Form.Item>
+                    <Button type="primary" htmlType="submit" className="form-submit-btn">
+                        Save
+                 </Button>
+                </Form>
             </fieldset>
 
         </div>);
