@@ -4,6 +4,7 @@ import Editor from './../../common/Editor';
 import { gql } from "apollo-boost";
 import { Form, Input, Button, Select } from 'antd';
 import { useMutation, useQuery } from '@apollo/react-hooks';
+import CreateEditForm from './CreateEditPost';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -23,7 +24,11 @@ const GET_CONSTRIBUTORS = gql`
   }
 `;
 
-const CreatePost = () => {
+const CreatePost = (props) => {
+    console.log(props);
+    const historyState = props.history.location.state;
+    console.log(historyState);
+
     const [values, setValues] = useState({ title: '', author: '', content: '', image: '', excerpt: '' })
     const [createPost, { val }] = useMutation(CREATE_POST);
     const { loading, error, data } = useQuery(GET_CONSTRIBUTORS);
