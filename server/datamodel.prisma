@@ -18,6 +18,7 @@ type Post {
   title: String
   excerpt: String
   content: Json
+  isPublished: Boolean @default(value: false)
   author: User! @relation(link: INLINE)
 }
 

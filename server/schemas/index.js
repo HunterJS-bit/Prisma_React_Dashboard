@@ -58,6 +58,7 @@ const typeDefs = gql`
     refreshToken(token: String): String,
     createPost(input: CreatePost): String,
     removePost(id: String): String,
+    updatePost(id:String, input: CreatePost): Post
   }
 `;
 

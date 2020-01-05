@@ -21,10 +21,10 @@ const resolvers = {
 
         },
         getPosts: async (parent, args, ctx, info) => {
-            console.log('About to Get Posts ');
-            if (!args.input) {
+            if (!args.postCount) {
                 return await ctx.prisma.posts({});
             }
+            return await ctx.prisma.posts({ first: args.postCount });
 
         },
         getPost: async (parent, args, ctx, info) => {
@@ -111,6 +111,24 @@ const resolvers = {
             const id = args.id;
             await ctx.prisma.deletePost({ id });
             return 'ok';
+        },
+        updatePost: async (parent, args, ctx, info) => {
+            const id = args.id;
+            const data = args.input;
+            // todo move it to frontend, filter object and only post changed fields
+            Object.keys(data).forEach((key) => (data[key]) ? data.key : delete data[key]);
+            if (data.author) {
+                data.author = { connect: { id: data.author } };
+            }
+
+            await ctx.prisma.updatePost({
+                data,
+                where: {
+                    id,
+                }
+            })
+
+
         }
     },
     JSON: GraphQLJSON,
