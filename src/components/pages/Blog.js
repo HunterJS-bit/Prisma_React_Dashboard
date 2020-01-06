@@ -23,7 +23,6 @@ class Blog extends Component {
                     if (loading) return 'Loading...';
                     if (error) return `Error! ${error.message}`;
                     const { getPosts } = data;
-                    console.log(getPosts);
                     return (<section id="blog">
                         {getPosts.map((post) =>
                             <Card key={post.title} post={post}></Card>
