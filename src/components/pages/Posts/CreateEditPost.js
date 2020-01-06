@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
+import DropZone from '../../common/DropZone';
+import Editor from './../../common/Editor';
 import { Form, Input, Button, Select } from 'antd';
 
 const { Option } = Select;
 const { TextArea } = Input;
 
-
 const PostForm = (props) => {
 
-    const isEdit = props.edit;
-    let emptyArticle = { title: '', author: '', content: '', image: '', excerpt: '' };
-    const Article = isEdit ? props.article : emptyArticle;
+    const isEdit = props.edit.id; // detect if is create form or not
+    const constributors = props.edit.users;
+    let emptyArticle = { title: '', author: { name: '' }, content: '', image: '', excerpt: '' };
+    const Article = isEdit ? props.edit.article : emptyArticle;
 
     const [formValues, setValues] = useState({
         title: '', author: '',
@@ -27,13 +29,28 @@ const PostForm = (props) => {
         },
     };
 
-    const submitForm = (e) => {
-        e.preventDefault();
-    };
-
     const handleInput = (e, event) => {
         let { name, value } = event.target;
         setValues({ ...formValues, [name]: value });
+    };
+
+    const handleSelect = (value) => {
+        setValues({ ...formValues, ['author']: value })
+    }
+
+    const handleFile = (file) => {
+        setValues({ ...formValues, image: file });
+    }
+
+    const handleEditor = (content) => {
+        console.log('Handle editor');
+        setValues({ ...formValues, content: content });
+    }
+
+    const submitForm = (e) => {
+        e.preventDefault();
+        // todo detect if any of values is changed before submiting the form
+        props.edit.submit(formValues, isEdit);
     };
 
     return (<div className="edit-form">
@@ -46,6 +63,26 @@ const PostForm = (props) => {
                         defaultValue={Article.title}
                         onChange={(value, event) => handleInput(event, value)}
                         placeholder="Title" />
+                </Form.Item>
+                <Form.Item label="Excerpt">
+                    <TextArea name="excerpt" defaultValue={Article.excerpt} placeholder="Write your excerpt ..." allowClear onChange={(value, event) => handleInput(event, value)} />
+                </Form.Item>
+                <Form.Item label="Author">
+                    <Select defaultValue={Article.author.name} style={{ width: 120 }} onSelect={(value, event) => handleSelect(value)}>
+                        {
+                            constributors &&
+                            constributors.getConstributors && constributors.getConstributors.map((user) => {
+                                return (<Option key={user.name} value={user.id}>{user.name}</Option>);
+                            })
+                        }
+                        <Option value=""></Option>
+                    </Select>
+                </Form.Item>
+                <Form.Item>
+                    <DropZone file={Article.image} updateFile={handleFile} />
+                </Form.Item>
+                <Form.Item>
+                    <Editor saveContent={handleEditor} />
                 </Form.Item>
                 <Button type="primary" htmlType="submit" className="form-submit-btn">
                     {isEdit ? 'Save' : 'Create'}
