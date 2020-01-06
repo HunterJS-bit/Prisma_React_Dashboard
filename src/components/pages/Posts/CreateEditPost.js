@@ -43,7 +43,6 @@ const PostForm = (props) => {
     }
 
     const handleEditor = (content) => {
-        console.log('Handle editor');
         setValues({ ...formValues, content: content });
     }
 
@@ -82,7 +81,7 @@ const PostForm = (props) => {
                     <DropZone file={Article.image} updateFile={handleFile} />
                 </Form.Item>
                 <Form.Item>
-                    <Editor saveContent={handleEditor} />
+                    <Editor content={Article.content} saveContent={handleEditor} />
                 </Form.Item>
                 <Button type="primary" htmlType="submit" className="form-submit-btn">
                     {isEdit ? 'Save' : 'Create'}

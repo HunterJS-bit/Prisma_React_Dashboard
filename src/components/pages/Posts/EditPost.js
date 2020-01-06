@@ -36,40 +36,40 @@ mutation updatePost($id: String!, $input: CreatePost!){
 `;;
 
 const EditPost = (props) => {
-    const _id = props.history.location.state.id;
+  const _id = props.history.location.state.id;
 
-    const { loadingConstributors, errorConst, data } = useQuery(GET_CONSTRIBUTORS);
-    const { data: post, loading, error } = useQuery(GET_POST, {
-        variables: { id: _id },
-    });
+  const { loadingConstributors, errorConst, data } = useQuery(GET_CONSTRIBUTORS);
+  const { data: post, loading, error } = useQuery(GET_POST, {
+    variables: { id: _id },
+  });
 
-    const [updatePost] = useMutation(UPDATE_POST);
+  const [updatePost] = useMutation(UPDATE_POST);
 
-    if (loadingConstributors) {
-        return <p>LOADING CONSTRIBUTORS</p>;
-    }
-    if (errorConst) return <p>ERROR</p>;
+  if (loadingConstributors) {
+    return <p>LOADING CONSTRIBUTORS</p>;
+  }
+  if (errorConst) return <p>ERROR</p>;
 
-    if (loading) return <p>LOADING</p>;
-    if (error) return <p>ERROR</p>;
-    let fetchedPost;
-    if (post) {
-        console.log('Post is hererer ');
-        fetchedPost = post.getPost;
-    }
+  if (loading) return <p>LOADING</p>;
+  if (error) return <p>ERROR</p>;
+  let fetchedPost;
+  if (post) {
+    console.log('Post is hererer ');
+    fetchedPost = post.getPost;
+  }
 
-    const submitForm = (formData, id) => {
-        console.log('Submit form');
-        console.log(formData);
-        console.log(id);
-        // updatePost({ variables: { id: id, input: values } })
-    }
+  const submitForm = (formData, id) => {
+    console.log('Submit form');
+    console.log(formData);
+    console.log(id);
+    updatePost({ variables: { id: id, input: formData } })
+  }
 
-    const Props = { id: _id, users: data, article: fetchedPost, submit: submitForm };
-    return (
-        <section id="edit-post">
-            <CreateEditForm edit={Props} />
-        </section>);
+  const Props = { id: _id, users: data, article: fetchedPost, submit: submitForm };
+  return (
+    <section id="edit-post">
+      <CreateEditForm edit={Props} />
+    </section>);
 }
 
 

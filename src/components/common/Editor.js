@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Editor } from 'react-draft-wysiwyg';
-import { EditorState, convertToRaw } from 'draft-js';
+import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 const EditorComponent = (props) => {
 
-    const [state, setEditorState] = useState({ editorState: EditorState.createEmpty() })
+    const content = props.content;
+    const defaultState = content ? EditorState.createWithContent(convertFromRaw(content)) : EditorState.createEmpty();
+    const [state, setEditorState] = useState({ editorState: defaultState })
 
 
     const onEditorStateChange = (data) => {
