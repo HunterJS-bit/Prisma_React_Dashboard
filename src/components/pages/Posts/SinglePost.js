@@ -28,16 +28,17 @@ class SinglePost extends React.Component {
                 if (error) return `Error! ${error}`;
 
                 const { title, content, author } = data.getPost;
-                const convertedContent = convertFromRaw(content);
-                const editorState = EditorState.createWithContent(convertedContent);
-                console.log(editorState);
+                let editorState = content ? EditorState.createWithContent(convertFromRaw(content)) : EditorState.createEmpty();
+
 
                 return (
                     <section className="single-post">
-                        <h1>Single Post</h1>
                         <h2>{title}</h2>
                         <div className="content">
                             <Editor editorState={editorState} readOnly={true} />
+                        </div>
+                        <div className="post-author">
+                            <p>Posted by: <b>{author ? author.name : ''}</b></p>
                         </div>
                     </section>
                 );

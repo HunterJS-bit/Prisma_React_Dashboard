@@ -1,18 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import gql from 'graphql-tag';
-import { useQuery } from '@apollo/react-hooks';
-import { Table } from 'antd';
+import { useQuery, useApolloClient } from '@apollo/react-hooks';
+import { Table, Layout } from 'antd';
 import TableActions from './PostTableAction';
 
+const { Content } = Layout;
 
 const GET_POSTS = gql`
-  {
-    getPosts {
-      id
-      title
-      author {
-         name
+query ($limit: Int, $skip: Int)  {
+    getPosts(limit: $limit, skip: $skip) {
+      posts {
+        id
+        title
+        author {
+          name
+        }
       }
+      total
     }
   }
 `;
@@ -52,18 +56,42 @@ const PostList = () => {
       ),
     },
   ];
+  let [state, setPosts] = useState([]);
+  const client = useApolloClient();
+
+  const { data: Posts, loading: load, err } = useQuery(GET_POSTS, {
+    variables: { limit: 10, skip: 0 },
+    onCompleted: (response) => {
+      const res = response.getPosts;
+      setPosts(res.posts);
+    }
+  });
 
 
-  const { data, loading, error } = useQuery(GET_POSTS);
-  if (loading) return <p>LOADING</p>;
-  if (error) return <p>ERROR</p>;
 
-  const { getPosts } = data;
-  console.log(getPosts);
+
+
+  if (load) return <p>LOADING</p>;
+  if (err) return <p>ERROR</p>;
+  let tableData;
+  tableData = Posts.getPosts;
+
+
+  const tableChanged = async (pagination) => {
+    console.log('Table is changeddd ');
+    const skip = pagination.current;
+    const { data } = await client.query({
+      query: GET_POSTS,
+      variables: { limit: 10, skip: skip - 1 },
+    });
+    const res = data.getPosts;
+    setPosts(res.posts);
+
+  }
   return (
-    <ul className="list-group">
-      <Table {...tableProps} columns={columns} dataSource={getPosts} rowKey="id" />
-    </ul>);
+    <Content style={{ margin: '0 16px', minHeight: "100vh" }}>
+      <Table {...tableProps} columns={columns} onChange={tableChanged} dataSource={state} pagination={{ defaultPageSize: 10, total: tableData.total }} rowKey="id" />
+    </Content>);
 }
 
 
