@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 
 const Card = (props) => {
     const post = props.post;
@@ -16,10 +17,13 @@ const Card = (props) => {
     };
 
 
-    return (<div className="card" style={mystyle}>
-        <h1>{post.title}</h1>
-        <p>{post.excerpt}</p>
-    </div>);
+
+    return (<Link to={`post/${post.id}`}>
+        <div className="card" style={mystyle} >
+            <h1>{post.title}</h1>
+            <p>{post.excerpt}</p>
+        </div>
+    </Link>);
 }
 
 

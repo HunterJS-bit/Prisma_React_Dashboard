@@ -5,6 +5,7 @@ import Contact from '../pages/Contact';
 import Blog from '../pages/Blog';
 import NotFound from '../pages/NotFound';
 import Dashboard from '../pages/Dashboard';
+import SinglePost from '../pages/Posts/SinglePost';
 
 const routes = [
     {
@@ -32,6 +33,10 @@ const routes = [
         'path': '/dashboard',
         'component': Dashboard,
         'private': true
+    },
+    {
+        'path': '/post/:id',
+        'component': SinglePost,
     },
     {
         'path': '*',
