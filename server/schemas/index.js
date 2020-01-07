@@ -13,6 +13,7 @@ const typeDefs = gql`
     getConstributors: [User]
     getPosts(limit: Int, skip: Int): PostPagination
     getPost(id: String): Post
+    getBlogPosts(limit: Int): [Post]
   }
   type Article {
     id: Int,

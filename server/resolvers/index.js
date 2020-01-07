@@ -33,6 +33,19 @@ const resolvers = {
             };
 
         },
+        getBlogPosts: async (parent, args, ctx, info) => {
+            const allPosts = await ctx.prisma.posts({
+                where: {
+                    isPublished: true
+                }
+            });
+            const total = allPosts.length;
+            const limit = args.limit;
+            const skip = args.skip;
+            const posts = allPosts.slice(skip * limit, (limit * skip) + limit);
+
+            return allPosts;
+        },
         getPost: async (parent, args, ctx, info) => {
             if (args.id) {
                 const id = args.id;
@@ -106,7 +119,7 @@ const resolvers = {
                 title,
                 content,
                 excerpt,
-                isPublished
+                isPublishedP
             });
 
         },
