@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import DropZone from '../../common/DropZone';
 import Editor from './../../common/Editor';
-import { Form, Input, Button, Select } from 'antd';
+import { Form, Input, Button, Select, Checkbox } from 'antd';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -10,12 +10,12 @@ const PostForm = (props) => {
 
     const isEdit = props.edit.id; // detect if is create form or not
     const constributors = props.edit.users;
-    let emptyArticle = { title: '', author: { name: '' }, content: '', image: '', excerpt: '' };
+    let emptyArticle = { title: '', author: { name: '' }, content: {}, isPublished: false, image: '', excerpt: '' };
     const Article = isEdit ? props.edit.article : emptyArticle;
 
     const [formValues, setValues] = useState({
         title: '', author: '',
-        content: '', image: '', excerpt: ''
+        content: {}, image: '', excerpt: '', isPublished: false
     })
     /** FORM LAYOUT  */
     const formItemLayout = {
@@ -34,8 +34,13 @@ const PostForm = (props) => {
         setValues({ ...formValues, [name]: value });
     };
 
+    const handleCheckbox = (e, event) => {
+        let { name, checked } = event.target;
+        setValues({ ...formValues, [name]: checked });
+    }
+
     const handleSelect = (value) => {
-        setValues({ ...formValues, ['author']: value })
+        setValues({ ...formValues, 'author': value })
     }
 
     const handleFile = (file) => {
@@ -76,6 +81,9 @@ const PostForm = (props) => {
                         }
                         <Option value=""></Option>
                     </Select>
+                </Form.Item>
+                <Form.Item label="Publish">
+                    <Checkbox name="isPublished" onChange={(value, event) => handleCheckbox(event, value)}>Publish</Checkbox>,
                 </Form.Item>
                 <Form.Item>
                     <DropZone file={Article.image} updateFile={handleFile} />

@@ -21,23 +21,23 @@ const GET_CONSTRIBUTORS = gql`
 
 const CreatePost = () => {
 
-    const [createPost, { val }] = useMutation(CREATE_POST);
-    const { loading, error, data } = useQuery(GET_CONSTRIBUTORS);
+  const [createPost, { val }] = useMutation(CREATE_POST);
+  const { loading, error, data } = useQuery(GET_CONSTRIBUTORS);
 
 
-    const onSubmit = (formData) => {
-        console.log('Create Post ');
-        console.log(formData)
-        // createPost({ variables: { input: formData } });
-    };
+  const onSubmit = (formData) => {
+    console.log('Create Post ');
+    // console.log(formData)
+    createPost({ variables: { input: formData } });
+  };
 
-    if (loading) return null;
-    if (error) return `Error! Description ${error}`;
-    // props to detect if for is edit or create
-    const Props = { id: false, users: data, submit: onSubmit };
-    return (<section id="create-post">
-        <CreateEditForm edit={Props} />
-    </section>);
+  if (loading) return null;
+  if (error) return `Error! Description ${error}`;
+  // props to detect if for is edit or create
+  const Props = { id: false, users: data, submit: onSubmit };
+  return (<section id="create-post">
+    <CreateEditForm edit={Props} />
+  </section>);
 
 };
 
