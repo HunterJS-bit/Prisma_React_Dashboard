@@ -11,7 +11,7 @@ const typeDefs = gql`
     mushorooms: [Mushroom]
     getUsers: [User]
     getConstributors: [User]
-    getPosts(postCount: Int): [Post]
+    getPosts(limit: Int, skip: Int): PostPagination
     getPost(id: String): Post
   }
   type Article {
@@ -23,6 +23,10 @@ const typeDefs = gql`
   type UserPayload {
     id: String,
     email: String,
+  }
+  type PostPagination {
+    posts: [PostAdmin],
+    total: Int,
   }
   input CreatePost {
     title: String!,
@@ -37,10 +41,19 @@ const typeDefs = gql`
     email: String!,
     profileImage: String,
   }
+  type PostAdmin {
+    id: String,
+    title: String,
+    content: JSON,
+    excerpt: String,
+    author: User,
+    imgSrc: String,
+    isPublished: Boolean,
+  }
   type Post {
     id: String,
     title: String,
-    content: String,
+    content: JSON,
     excerpt: String,
     author: User,
     imgSrc: String,

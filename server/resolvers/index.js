@@ -21,10 +21,16 @@ const resolvers = {
 
         },
         getPosts: async (parent, args, ctx, info) => {
-            if (!args.postCount) {
-                return await ctx.prisma.posts({});
-            }
-            return await ctx.prisma.posts({ first: args.postCount });
+            const allPosts = await ctx.prisma.posts({});
+            const total = allPosts.length;
+            const limit = args.limit;
+            const skip = args.skip;
+            const posts = allPosts.slice(skip * limit, (limit * skip) + limit);
+
+            return {
+                posts,
+                total,
+            };
 
         },
         getPost: async (parent, args, ctx, info) => {
@@ -87,10 +93,7 @@ const resolvers = {
 
         },
         createPost: async (parent, args, ctx, info) => {
-            console.log('Im herere in resolver');
             const { title, author, content, image, excerpt } = args.input;
-            console.log('TESTTTTTTTT');
-            console.log(args.input);
 
             if (image) {
                 cloudinaryUpload(image, ctx.prisma);
