@@ -93,7 +93,7 @@ const resolvers = {
 
         },
         createPost: async (parent, args, ctx, info) => {
-            const { title, author, content, image, excerpt } = args.input;
+            const { title, author, content, image, excerpt, isPublished } = args.input;
 
             if (image) {
                 cloudinaryUpload(image, ctx.prisma);
@@ -106,7 +106,7 @@ const resolvers = {
                 title,
                 content,
                 excerpt,
-
+                isPublished
             });
 
         },

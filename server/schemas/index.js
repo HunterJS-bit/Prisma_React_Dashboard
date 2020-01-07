@@ -34,6 +34,7 @@ const typeDefs = gql`
     content: JSON,
     excerpt: String,
     image: Upload,
+    isPublished: Boolean,
   }
   type User {
     id: String,
