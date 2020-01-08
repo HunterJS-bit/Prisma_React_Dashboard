@@ -7,8 +7,11 @@ const GraphQLJSON = require('graphql-type-json');
 // Provide resolver functions for your schema fields
 const resolvers = {
     Query: {
-        getUsers: async (parent, args, ctx, info) => {
-            return await ctx.prisma.users({});
+        posts(parent, args, ctx, info) {
+            return ctx.prisma.posts();
+        },
+        users: async (parent, args, ctx, info) => {
+            return await ctx.prisma.users();
         },
         getConstributors: async (parent, args, ctx, info) => {
             // GET CONSTRIBUTORS
@@ -20,31 +23,26 @@ const resolvers = {
             console.log('Get other POSTS');
 
         },
-        getPosts: async (parent, args, ctx, info) => {
-            const allPosts = await ctx.prisma.posts({});
+        getPosts: async (parent, { limit, skip }, ctx, info) => {
+            const allPosts = await ctx.prisma.posts();
             const total = allPosts.length;
-            const limit = args.limit;
-            const skip = args.skip;
             const posts = allPosts.slice(skip * limit, (limit * skip) + limit);
-
             return {
                 posts,
                 total,
             };
 
         },
-        getBlogPosts: async (parent, args, ctx, info) => {
-            const allPosts = await ctx.prisma.posts({
+        blog: async (parent, { limit, skip }, ctx, info) => {
+            const posts = await ctx.prisma.posts({
                 where: {
                     isPublished: true
                 }
             });
-            const total = allPosts.length;
-            const limit = args.limit;
-            const skip = args.skip;
-            const posts = allPosts.slice(skip * limit, (limit * skip) + limit);
+            // const total = allPosts.length;
+            // const posts = allPosts.slice(skip * limit, (limit * skip) + limit);
 
-            return allPosts;
+            return posts;
         },
         getPost: async (parent, args, ctx, info) => {
             if (args.id) {
@@ -148,6 +146,16 @@ const resolvers = {
         }
     },
     JSON: GraphQLJSON,
+    User: {
+        posts(parent, args, ctx, info) {
+            return ctx.prisma.user({ id: parent.id }).posts()
+        },
+    },
+    Post: {
+        author(parent, args, ctx, info) {
+            return ctx.prisma.post({ id: parent.id }).author()
+        },
+    },
 };
 
 module.exports = resolvers;

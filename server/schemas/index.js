@@ -9,24 +9,19 @@ const typeDefs = gql`
   type Query {
     hello: String
     mushorooms: [Mushroom]
-    getUsers: [User]
+    posts: [Post]
+    users: [User]
     getConstributors: [User]
     getPosts(limit: Int, skip: Int): PostPagination
     getPost(id: String): Post
-    getBlogPosts(limit: Int): [Post]
-  }
-  type Article {
-    id: Int,
-    name: String,
-    text: String,
-    image: String,
+    blog(limit: Int): [Post]
   }
   type UserPayload {
     id: String,
     email: String,
   }
   type PostPagination {
-    posts: [PostAdmin],
+    posts: [Post],
     total: Int,
   }
   input CreatePost {
@@ -42,6 +37,7 @@ const typeDefs = gql`
     name: String,
     email: String!,
     profileImage: String,
+    posts: Post
   }
   type PostAdmin {
     id: String,
@@ -59,6 +55,7 @@ const typeDefs = gql`
     excerpt: String,
     author: User,
     imgSrc: String,
+    isPublished: Boolean,
   }
   type Mushroom {
     id: Int,
