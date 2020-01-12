@@ -47,14 +47,9 @@ const resolvers = {
         getPost: async (parent, args, ctx, info) => {
             if (args.id) {
                 const id = args.id;
-
-                const author = await ctx.prisma.post({ id: id }).author();
                 const post = await ctx.prisma.post({ id });
 
-                return {
-                    ...post,
-                    author
-                };
+                return post;
             }
         },
     },

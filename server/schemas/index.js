@@ -13,7 +13,7 @@ const typeDefs = gql`
     users: [User]
     getConstributors: [User]
     getPosts(limit: Int, skip: Int): PostPagination
-    getPost(id: String): Post
+    getPost(id: String!): Post
     blog(limit: Int): [Post]
   }
   type UserPayload {
