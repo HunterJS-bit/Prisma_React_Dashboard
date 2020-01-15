@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import { useQuery, useApolloClient } from '@apollo/react-hooks';
-import { Table, Layout, Icon, Typography } from 'antd';
+import { Table, Layout, Icon, Typography, Avatar } from 'antd';
 import TableActions from './PostTableAction';
 
 const { Content } = Layout;
@@ -44,8 +44,8 @@ const PostList = () => {
       title: 'Author',
       dataIndex: 'author',
       key: 'author',
-      render: (text, record) => {
-        return <Text code> Marko</Text>
+      render: (author, record) => {
+        return <Avatar style={{ color: '#fff', backgroundColor: '#87d068' }}>{author.name}</Avatar>
       }
     },
     {
@@ -91,7 +91,7 @@ const PostList = () => {
 
   return (
     <Content style={{ margin: '0 16px', minHeight: "100vh" }}>
-      <Table {...tableProps} columns={columns} onChange={tableChanged} dataSource={state.posts} pagination={{ defaultPageSize: 10, total: state.total }} rowKey="id" />
+      <Table {...tableProps} columns={columns} onChange={tableChanged} dataSource={state.posts} pagination={{ defaultPageSize: 10, total: state.total }} rowKey="id" scroll={{ y: "calc(100vh - 4em)" }} />
     </Content>);
 }
 

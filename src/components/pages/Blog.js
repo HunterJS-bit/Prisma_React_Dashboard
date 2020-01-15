@@ -5,10 +5,10 @@ import { Query } from 'react-apollo';
 
 const GET_BlOG_POSTS = gql`
 query ($limit: Int!) {
-    getPosts(limit: $limit) {
-      id
-      title
-      excerpt
+    blog(limit: $limit) {
+        id
+        title
+        excerpt  
     }
   }
 `;
@@ -18,13 +18,13 @@ class Blog extends Component {
 
     render() {
         return (
-            <Query query={GET_BlOG_POSTS} variables={{ limit: 3 }}>
+            <Query query={GET_BlOG_POSTS} variables={{ limit: 3, skip: 0 }}>
                 {({ loading, error, data }) => {
                     if (loading) return 'Loading...';
                     if (error) return `Error! ${error.message}`;
-                    const { getPosts } = data;
+                    const { blog } = data;
                     return (<section id="blog">
-                        {getPosts.map((post) =>
+                        {blog.map((post) =>
                             <Card key={post.title} post={post}></Card>
                         )}
                     </section>);

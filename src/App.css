@@ -30,6 +30,7 @@ ul.nav.navbar-nav {
 
 .dashboard {
   display: flex;
+  height: 100vh;
 }
 
 li {

@@ -28,8 +28,8 @@ class SinglePost extends React.Component {
                 if (error) return `Error! ${error}`;
 
                 const { title, content, author } = data.getPost;
-                let editorState = content ? EditorState.createWithContent(convertFromRaw(content)) : EditorState.createEmpty();
 
+                let editorState = Object.keys(content).length === 0 ? EditorState.createEmpty() : EditorState.createWithContent(convertFromRaw(content));
 
                 return (
                     <section className="single-post">
@@ -39,6 +39,10 @@ class SinglePost extends React.Component {
                         </div>
                         <div className="post-author">
                             <p>Posted by: <b>{author ? author.name : ''}</b></p>
+                        </div>
+                        <div className="comment-section">
+                            <textarea></textarea>
+                            <button>Leave comment</button>
                         </div>
                     </section>
                 );
