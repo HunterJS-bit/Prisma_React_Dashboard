@@ -20,6 +20,7 @@ type Post {
   content: Json
   isPublished: Boolean @default(value: false)
   author: User! @relation(link: INLINE)
+  comments: [Comment!]!
 }
 
 type File {
@@ -36,6 +37,7 @@ type Comment {
   id: ID! @id
   author: String!
   content: String!
+  post: Post! @relation(link: INLINE)
 }
 
 type Mushroom {
