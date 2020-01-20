@@ -53,3 +53,8 @@ li {
   justify-content: center;
   align-items: center;
 }
+
+aside ul li {
+  color: #fff;
+    font-size: large;
+}
