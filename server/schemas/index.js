@@ -14,6 +14,7 @@ const typeDefs = gql`
     getConstributors: [User]
     getPosts(limit: Int, skip: Int): PostPagination
     getPost(id: String!): Post
+    getUsers(limit: Int, skip: Int): UserPagination
     blog(limit: Int): [Post]
   }
   type UserPayload {
@@ -22,6 +23,10 @@ const typeDefs = gql`
   }
   type PostPagination {
     posts: [Post],
+    total: Int,
+  }
+  type UserPagination {
+    users: [User],
     total: Int,
   }
   input CreatePost {
@@ -35,6 +40,7 @@ const typeDefs = gql`
   type User {
     id: String,
     name: String,
+    role: String,
     email: String!,
     profileImage: String,
     posts: Post

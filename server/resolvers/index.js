@@ -52,6 +52,16 @@ const resolvers = {
                 return post;
             }
         },
+        getUsers: async (parent, { limit, skip }, ctx, info) => {
+            const allUsers = await ctx.prisma.users();
+            const total = allUsers.length;
+            const users = allUsers.slice(skip * limit, (limit * skip) + limit);
+            return {
+                users,
+                total,
+            };
+
+        },
     },
     Mutation: {
         createUser: async (parent, args, ctx, info) => {
