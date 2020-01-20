@@ -21,7 +21,7 @@ const GET_CONSTRIBUTORS = gql`
 
 const CreatePost = () => {
 
-  const [createPost, { val }] = useMutation(CREATE_POST);
+  const [createPost] = useMutation(CREATE_POST);
   const { loading, error, data } = useQuery(GET_CONSTRIBUTORS);
 
 

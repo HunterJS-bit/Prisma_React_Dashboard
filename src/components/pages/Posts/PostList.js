@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import { useQuery, useApolloClient } from '@apollo/react-hooks';
-import { Table, Layout, Icon, Typography, Avatar } from 'antd';
+import { Table, Layout, Icon, Avatar, Skeleton } from 'antd';
 import TableActions from './PostTableAction';
+import TableProps from '../../../shared/tableProps';
 
 const { Content } = Layout;
-const { Text } = Typography;
 
 const GET_POSTS = gql`
 query ($limit: Int, $skip: Int)  {
@@ -23,45 +23,37 @@ query ($limit: Int, $skip: Int)  {
   }
 `;
 
+const columns = [
+  {
+    title: 'Title',
+    dataIndex: 'title',
+    key: 'title',
+  },
+  {
+    title: 'Author',
+    dataIndex: 'author',
+    key: 'author',
+    render: (author, record) => {
+      return <Avatar style={{ color: '#fff', backgroundColor: '#87d068' }}>{author.name}</Avatar>
+    }
+  },
+  {
+    title: 'isPublished',
+    dataIndex: 'isPublished',
+    key: 'isPublished',
+    render: (text, record) => <div>  <Icon type={record.isPublished ? 'check-circle' : 'close-circle'} theme="twoTone" /></div>,
+  },
+  {
+    title: 'Action',
+    key: 'action',
+    render: (text, record) => (
+      <TableActions post={record} />
+    ),
+  },
+];
+
 const PostList = () => {
-  const tableProps = {
-    bordered: true,
-    loading: false,
-    pagination: { position: "bottom" },
-    size: "default",
-    title: undefined,
-    showHeader: true,
-    rowSelection: {},
-    scroll: { y: 240 }
-  };
-  const columns = [
-    {
-      title: 'Title',
-      dataIndex: 'title',
-      key: 'title',
-    },
-    {
-      title: 'Author',
-      dataIndex: 'author',
-      key: 'author',
-      render: (author, record) => {
-        return <Avatar style={{ color: '#fff', backgroundColor: '#87d068' }}>{author.name}</Avatar>
-      }
-    },
-    {
-      title: 'isPublished',
-      dataIndex: 'isPublished',
-      key: 'isPublished',
-      render: (text, record) => <div>  <Icon type={record.isPublished ? 'check-circle' : 'close-circle'} theme="twoTone" /></div>,
-    },
-    {
-      title: 'Action',
-      key: 'action',
-      render: (text, record) => (
-        <TableActions post={record} />
-      ),
-    },
-  ];
+
   let [state, setState] = useState({ total: 0, posts: [] });
   const client = useApolloClient();
 
@@ -74,7 +66,7 @@ const PostList = () => {
   });
 
 
-  if (load) return <p>LOADING</p>;
+  if (load) return <Skeleton loading={true} active avatar paragraph />;
   if (err) return <p>ERROR</p>;
 
 
@@ -91,7 +83,7 @@ const PostList = () => {
 
   return (
     <Content style={{ margin: '0 16px', minHeight: "100vh" }}>
-      <Table {...tableProps} columns={columns} onChange={tableChanged} dataSource={state.posts} pagination={{ defaultPageSize: 10, total: state.total }} rowKey="id" scroll={{ y: "calc(100vh - 4em)" }} />
+      <Table {...TableProps} columns={columns} onChange={tableChanged} dataSource={state.posts} pagination={{ defaultPageSize: 10, total: state.total }} rowKey="id" scroll={{ y: "calc(100vh - 4em)" }} />
     </Content>);
 }
 
