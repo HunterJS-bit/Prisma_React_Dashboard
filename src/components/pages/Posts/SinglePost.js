@@ -18,6 +18,8 @@ query getPost($id: String!) {
 `;
 
 
+
+
 class SinglePost extends React.Component {
 
     render() {
@@ -41,7 +43,9 @@ class SinglePost extends React.Component {
                             <p>Posted by: <b>{author ? author.name : ''}</b></p>
                         </div>
                         <div className="comment-section">
-                            <textarea></textarea>
+                            <label>Name</label>
+                            <input placeholder="Your Name"></input>
+                            <textarea placeholder="Your Comment"></textarea>
                             <button>Leave comment</button>
                         </div>
                     </section>

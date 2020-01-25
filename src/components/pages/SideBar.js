@@ -47,7 +47,7 @@ class Sidebar extends Component {
                             <Link to="/user-list" />
                         </Menu.Item>
                         <Menu.Item key="5">
-                            <Icon type="ordered-list" />
+                            <Icon type="user-add" />
                             <span>Create User </span>
                             <Link to="/user-create" />
                         </Menu.Item>
@@ -56,7 +56,11 @@ class Sidebar extends Component {
                         <Icon type="profile" />
                         <span>Profile</span>
                     </Menu.Item>
-                    <Menu.Item key="7">
+                      <Menu.Item key="7">
+                        <Icon type="setting" />
+                        <span>Settings</span>
+                    </Menu.Item>
+                    <Menu.Item key="8">
                         <Icon type="logout" />
                         <span>Logout</span>
                     </Menu.Item>

@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 import { useQuery, useApolloClient } from '@apollo/react-hooks';
 import { Table, Layout, Skeleton } from 'antd';
 import tableProps from '../../../shared/tableProps';
+import UserTableActions from './UserTableActions';
 
 const { Content } = Layout;
 
@@ -35,6 +36,14 @@ const columns = [
         title: 'Role',
         dataIndex: 'role',
         key: 'role',
+    },
+    {
+        title: 'Actions',
+        dataIndex: 'action',
+        key: 'action',
+        render: (text, record) => (
+          <UserTableActions/>
+        ),
     },
 ];
 
