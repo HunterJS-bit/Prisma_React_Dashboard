@@ -83,7 +83,7 @@ const PostList = () => {
 
   return (
     <Content style={{ margin: '0 16px', minHeight: "100vh" }}>
-      <Table {...TableProps} columns={columns} onChange={tableChanged} dataSource={state.posts} pagination={{ defaultPageSize: 10, total: state.total }} rowKey="id" scroll={{ y: "calc(100vh - 4em)" }} />
+      <Table {...TableProps} columns={columns} onChange={tableChanged} dataSource={state.posts} pagination={{ defaultPageSize: 10, total: state.total }} rowKey="id" scroll={{ y: "calc(80vh - 4em)" }} />
     </Content>);
 }
 

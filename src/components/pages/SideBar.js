@@ -12,7 +12,11 @@ class Sidebar extends Component {
     render() {
         return (
             <Sider>
-                <Menu theme="dark" defaultSelectedKeys={['sub1']} mode="inline">
+                <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+                     <Menu.Item key="1">
+                        <Icon type="bar-chart"  />
+                        <span>Analytics</span>
+                    </Menu.Item>
                     <SubMenu
                         key="sub1"
                         title={

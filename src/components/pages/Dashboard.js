@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import SideBar from './SideBar';
 import dashRoutes from '../router/dashboardRoutes';
-
-
+import { Layout, Menu, Icon } from 'antd';
 import {
     BrowserRouter as Router,
     Switch,
     Route,
 } from "react-router-dom";
 
+const { Header, Sider, Content } = Layout;
 
 export default class Dashboard extends Component {
 
@@ -16,8 +16,18 @@ export default class Dashboard extends Component {
         return (
             <div className="dashboard">
                 <Router>
-                    <SideBar></SideBar>
-                    <section className="render">
+                  <Layout>
+                  <Header>Header</Header>
+                      <Layout>
+                        <SideBar></SideBar>
+                        <Content
+                            style={{
+                              margin: '24px 16px',
+                              padding: 24,
+                              background: '#fff',
+                              minHeight: 280,
+                            }}
+                          >
                         <Switch>
                             {dashRoutes.map((route, index) => (
                                 <Route
@@ -29,9 +39,9 @@ export default class Dashboard extends Component {
                                 ></Route>
                             ))}
                         </Switch>
-                    </section>
-
-
+                        </Content>
+                      </Layout>
+                      </Layout>
                 </Router>
             </div>
         )
