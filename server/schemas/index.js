@@ -69,6 +69,10 @@ const typeDefs = gql`
     type: Boolean,
     info: String,
   }
+  input Comment {
+     author: String!,
+     comment: String!,
+  }
   type Mutation {
     createUser(email: String):User,
     deleteUser(id: Int):User,
@@ -77,6 +81,7 @@ const typeDefs = gql`
     createPost(input: CreatePost): String,
     removePost(id: String): String,
     updatePost(id:String, input: CreatePost): Post
+    postComment(input: Comment): String
   }
 `;
 

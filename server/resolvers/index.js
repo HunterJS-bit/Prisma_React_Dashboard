@@ -148,6 +148,9 @@ const resolvers = {
             })
 
 
+        },
+        postComment: async (parent, args, ctx, info) => {
+            console.log('POsting comment');
         }
     },
     JSON: GraphQLJSON,
