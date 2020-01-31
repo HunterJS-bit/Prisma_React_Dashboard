@@ -1,0 +1,35 @@
+[
+    {
+        "name": "Marko",
+        "role": "ADMIN",
+        "email": "marko123@gmail.com",
+        "password": "123456"
+    },
+    {
+        "name": "Milos",
+        "email": "milosmitic@gmail.com",
+        "password": "1233455"
+    },
+    {
+        "name": "Joccko",
+        "email": "joca@gmail.com",
+        "password": "1233455"
+    },
+    {
+        "name": "Pera",
+        "role": "CONSTRIBUTOR",
+        "email": "pera@gmail.com",
+        "password": "1233455"
+    },
+    {
+        "name": "Mika",
+        "role": "CONSTRIBUTOR",
+        "email": "mika@gmail.com",
+        "password": "1111111"
+    },
+    {
+        "name": "Aleksandra",
+        "email": "aleksandra@gmail.com",
+        "password": "1"
+    }
+]
