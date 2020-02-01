@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 const cloudinaryUpload = require('../utils/cloudinaryUtil');
 const GraphQLJSON = require('graphql-type-json');
 
-
 // Provide resolver functions for your schema fields
 const resolvers = {
     Query: {
@@ -64,6 +63,12 @@ const resolvers = {
         },
     },
     Mutation: {
+        registerUser: async (parent, args, ctx, info) => {
+            const { password } = args.input;
+            const hassPass = await bcrypt.hash(password, parseInt(process.env.salt, 10));
+
+            await ctx.prisma.createUser({ ... args.input, password: hassPass });
+        },
         createUser: async (parent, args, ctx, info) => {
             await ctx.prisma.createUser({ email: args.email, password: '12313' });
         },

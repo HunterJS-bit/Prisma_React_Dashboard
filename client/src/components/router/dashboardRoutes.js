@@ -2,7 +2,7 @@ import CreatePost from '../pages/Posts/CreatePost';
 import PostList from '../pages/Posts/PostList';
 import EditPost from '../pages/Posts/EditPost';
 import UserList from '../pages/Users/UserList';
-import UserCreate from '../pages/Users/CreateUser';
+import CreateUser from '../pages/Users/CreateUser';
 
 
 const dashRoutes = [
@@ -33,7 +33,7 @@ const dashRoutes = [
     {
         name: 'UserCreate',
         route: '/user-create',
-        component: UserCreate,
+        component: CreateUser,
         exact: true,
     }
 ];

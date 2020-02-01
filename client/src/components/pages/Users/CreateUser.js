@@ -1,5 +1,16 @@
 import React from 'react';
 import { Form, Icon, Input, Button, Select } from 'antd';
+import gql from 'graphql-tag';
+import { useMutation } from '@apollo/react-hooks';
+
+
+const ADD_USER= gql`
+  mutation registerUser($input: UserCreate!) {
+    registerUser(input: $input) {
+      id
+    }
+  }
+`;
 
 const { Option } = Select;
 
@@ -14,12 +25,15 @@ const formItemLayout = {
       },
     };
 
-const createUser = () => {
+const CreateUser = () => {
+
+  const [addUser] = useMutation(ADD_USER);
 
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		console.log('Handle the form ');
+    addUser( { variables: { input: { name: 'test', email: 'test', password: 'test' } } });
 	}
 
     return (<Form {...formItemLayout} onSubmit={handleSubmit} className="user-form">
@@ -56,4 +70,4 @@ const createUser = () => {
     	</Form>);
 }
 
-export default createUser;
+export default CreateUser;
