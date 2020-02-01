@@ -1,6 +1,5 @@
-<<<<<<< HEAD
-node_modules
-=======
 # Don't track content of these folders
-node_modules/
->>>>>>> a72ba84446e0def2ca32998e3bbd24965e1a90b6
+server/node_modules
+server/generated
+client/node_modules
+.DS_Store
