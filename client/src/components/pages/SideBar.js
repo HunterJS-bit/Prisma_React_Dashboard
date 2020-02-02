@@ -16,6 +16,7 @@ class Sidebar extends Component {
                      <Menu.Item key="1">
                         <Icon type="bar-chart"  />
                         <span>Analytics</span>
+                        <Link to="/analytics" />
                     </Menu.Item>
                     <SubMenu
                         key="sub1"

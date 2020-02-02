@@ -3,9 +3,16 @@ import PostList from '../pages/Posts/PostList';
 import EditPost from '../pages/Posts/EditPost';
 import UserList from '../pages/Users/UserList';
 import CreateUser from '../pages/Users/CreateUser';
+import Analytics from '../pages/Analytics/AnalyticsPage';
 
 
 const dashRoutes = [
+    {
+        name: 'Analytics',
+        route: '/analytics',
+        component: Analytics,
+        exact: true,
+    },
     {
         name: 'CreatePost',
         route: '/create-post',

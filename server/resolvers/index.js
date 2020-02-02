@@ -6,6 +6,9 @@ const GraphQLJSON = require('graphql-type-json');
 // Provide resolver functions for your schema fields
 const resolvers = {
     Query: {
+        analytics(parent, args, ctx, info) {
+            console.log('Fetching analytics');
+        }.
         posts(parent, args, ctx, info) {
             return ctx.prisma.posts();
         },
