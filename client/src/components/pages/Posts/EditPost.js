@@ -11,6 +11,7 @@ query getPost($id: String!) {
       title
       content
       excerpt
+      isPublished
       author {
           name
       }
@@ -56,6 +57,7 @@ const EditPost = (props) => {
   if (post) {
     console.log('Post is hererer ');
     fetchedPost = post.getPost;
+    console.log(fetchedPost);
   }
 
   const submitForm = (formData, id) => {

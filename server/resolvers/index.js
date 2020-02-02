@@ -127,7 +127,7 @@ const resolvers = {
                 title,
                 content,
                 excerpt,
-                isPublishedP
+                isPublished
             });
 
         },
@@ -158,6 +158,7 @@ const resolvers = {
             console.log('Posting comment');
             const { comment, author } = args.input;
             console.log(comment, author);
+            console.log(ctx.prisma.comment);
 
         }
     },

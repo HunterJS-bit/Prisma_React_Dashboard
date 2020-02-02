@@ -83,7 +83,7 @@ const PostForm = (props) => {
                     </Select>
                 </Form.Item>
                 <Form.Item label="Publish">
-                    <Checkbox name="isPublished" onChange={(value, event) => handleCheckbox(event, value)}>Publish</Checkbox>,
+                    <Checkbox name="isPublished" defaultChecked={Article.isPublished } onChange={(value, event) => handleCheckbox(event, value)}>Publish</Checkbox>,
                 </Form.Item>
                 <Form.Item>
                     <DropZone file={Article.image} updateFile={handleFile} />
