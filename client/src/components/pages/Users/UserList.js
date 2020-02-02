@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import { useQuery, useApolloClient } from '@apollo/react-hooks';
-import { Table, Layout, Skeleton } from 'antd';
+import { Table, Layout } from 'antd';
 import tableProps from '../../../shared/tableProps';
 import UserTableActions from './UserTableActions';
+import SkeletonList from '../../common/SkeletonList';
 
 const { Content } = Layout;
 
@@ -59,7 +60,8 @@ const UserList = props => {
         }
     });
 
-    if (loading) return <Skeleton active avatar></Skeleton>;
+    if (loading) return <SkeletonList length={10} />;
+
     if (err) return <p>Error</p>;
 
     const tableChanged = async (pagination) => {
