@@ -5,8 +5,17 @@ import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 const EditorComponent = (props) => {
 
+    EditorComponent.defaultProps = {
+        content: {}
+    }
+
     const content = props.content;
-    const defaultState = Object.keys(content).length === 0 ? EditorState.createEmpty() : EditorState.createWithContent(convertFromRaw(content));
+    let defaultState;
+    if (!content) {
+        defaultState = EditorState.createEmpty();
+    } else {
+        defaultState =  EditorState.createWithContent(convertFromRaw(content));
+    };
     const [state, setEditorState] = useState({ editorState: defaultState })
 
 

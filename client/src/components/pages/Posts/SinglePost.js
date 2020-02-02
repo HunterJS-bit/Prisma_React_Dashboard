@@ -31,7 +31,7 @@ class SinglePost extends React.Component {
 
                 const { title, content, author } = data.getPost;
 
-                let editorState = Object.keys(content).length === 0 ? EditorState.createEmpty() : EditorState.createWithContent(convertFromRaw(content));
+                let editorState = !content ? EditorState.createEmpty() : EditorState.createWithContent(convertFromRaw(content));
 
                 return (
                     <section className="single-post">

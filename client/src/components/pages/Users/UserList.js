@@ -26,7 +26,7 @@ const columns = [
     {
         name: 'Name',
         dataIndex: 'name',
-        key: 'Name',
+        key: 'name',
     },
     {
         title: 'Email',
