@@ -155,7 +155,10 @@ const resolvers = {
 
         },
         postComment: async (parent, args, ctx, info) => {
-            console.log('POsting comment');
+            console.log('Posting comment');
+            const { comment, author } = args.input;
+            console.log(comment, author);
+
         }
     },
     JSON: GraphQLJSON,
