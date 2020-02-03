@@ -32,15 +32,12 @@ app.use(jwtValidate);
 server.applyMiddleware({ app, path: "/graphql", cors: false });
 app.get('/google/return',async (req, res) => {
 	const code = req.query.code;
-	console.log(':// HERE ');
+	console.log(':// GET ACCESS TOKEN ');
 	try {
 		const { tokens } = await oauth2Client.getToken(code);
 		oauth2Client.setCredentials({
 			access_token: tokens.access_token
-		})
-
-		console.log('Tokens ');
-		console.log(tokens);
+		});
 	} catch(err) {
 		console.log('Error: ' + err)
 	}

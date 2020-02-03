@@ -19,35 +19,29 @@ const analytics = google.analytics({
 });
 
 
-const getAnalytics = () => {
-	const viewId = process.env.viewID;
+oauth2Client.on('tokens', (tokens) => {
+	console.log('OVdeee sammmm ');
+ 	console.log(tokens);
+});
 
-	// let now = moment().format('YYYY-MM-DD')
-	// 	let aMonthAgo = moment()
-	// 		.subtract(1, 'months')
-	// 		.format('YYYY-MM-DD')
-	// 	let repReq = [
-	// 		{
-	// 			viewId: viewSelected,
-	// 			dateRanges: [
-	// 				{
-	// 					startDate: aMonthAgo,
-	// 					endDate: now
-	// 				}
-	// 			],
-	// 			metrics: [
-	// 				{
-	// 					expression: 'ga:hits'
-	// 				}
-	// 			],
-	// 			dimensions: [
-	// 				{
-	// 					name: 'ga:day'
-	// 				}
-	// 			]
-	// 		}
-	// 	];
+
+const getAnalytics = async () => {
+	const viewId = process.env.viewID;
 	console.log('Getting google analytics');
+
+	console.log('---------------------')
+	try {
+		const { data } = await analytics.data.ga.get({
+			ids: 'ga:' + viewId,
+		    auth: oauth2Client,
+		    'start-date': '30daysAgo',
+	    	'end-date': 'today',
+	    	'metrics': 'ga:pageviews'
+		});
+	} catch (e) {
+        console.log('Errorr', e);
+    }
+	// console.log(data);
 
 }
 

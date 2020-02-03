@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const google = require('../services/google-util');
+const { getAnalytics } = require('../services/google-util');
 const cloudinaryUpload = require('../utils/cloudinaryUtil');
 const GraphQLJSON = require('graphql-type-json');
 
@@ -10,8 +10,7 @@ const resolvers = {
     Query: {
         analytics: async (parent, args, ctx, info) => {
             console.log('Fetching analytics');
-            google.getAnalytics();
-            
+            getAnalytics();
         },
         posts(parent, args, ctx, info) {
             return ctx.prisma.posts();
