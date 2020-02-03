@@ -11,7 +11,7 @@ const typeDefs = gql`
     mushorooms: [Mushroom]
     posts: [Post]
     users: [User]
-    anayltics: String
+    analytics: String
     getConstributors: [User]
     getPosts(limit: Int, skip: Int): PostPagination
     getPost(id: String!): Post

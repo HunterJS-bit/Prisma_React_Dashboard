@@ -1,5 +1,5 @@
 const express = require('express');
-const dotenv = require('dotenv');
+const dotenv = require('dotenv').config();
 const { prisma } = require('./generated/prisma-client')
 const { ApolloServer } = require('apollo-server-express');
 const cors = require('cors');
@@ -7,8 +7,7 @@ const cookieParser = require('cookie-parser');
 const typeDefs = require('./schemas');
 const resolvers = require('./resolvers');
 const { jwtValidate } = require('./middleware');
-
-dotenv.config();
+const { oauth2Client } = require('./services/google-util');
 
 
 const server = new ApolloServer({
@@ -31,6 +30,22 @@ app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(jwtValidate);
 server.applyMiddleware({ app, path: "/graphql", cors: false });
+app.get('/google/return',async (req, res) => {
+	const code = req.query.code;
+	console.log(':// HERE ');
+	try {
+		const { tokens } = await oauth2Client.getToken(code);
+		oauth2Client.setCredentials({
+			access_token: tokens.access_token
+		})
+
+		console.log('Tokens ');
+		console.log(tokens);
+	} catch(err) {
+		console.log('Error: ' + err)
+	}
+	res.redirect('http://localhost:2000/dashboard')
+})
 
 const PORT = process.env.PORT;
 

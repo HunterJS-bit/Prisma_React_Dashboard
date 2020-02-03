@@ -1,14 +1,18 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const google = require('../services/google-util');
 const cloudinaryUpload = require('../utils/cloudinaryUtil');
 const GraphQLJSON = require('graphql-type-json');
+
 
 // Provide resolver functions for your schema fields
 const resolvers = {
     Query: {
-        analytics(parent, args, ctx, info) {
+        analytics: async (parent, args, ctx, info) => {
             console.log('Fetching analytics');
-        }.
+            google.getAnalytics();
+            
+        },
         posts(parent, args, ctx, info) {
             return ctx.prisma.posts();
         },
