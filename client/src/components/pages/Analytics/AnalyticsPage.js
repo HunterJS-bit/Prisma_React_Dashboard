@@ -17,14 +17,11 @@ const Analytics = () => {
 	const { loading, error, data } = useQuery(GET_ANALYTICS);
 
 	if (loading) return 'Loading...';
-  	if (error) return 	`Error! ${error.message}`;
-
-  	console.log('OVdeee sammmm ');
-
-  	console.log(data);
+  if (error) return 	`Error! ${error.message}`;
+  const { analytics } = data;
 
 	return (<div id="analytics"><h1> Analytics </h1>
-		<Chart ></Chart></div>);
+		<Chart data={analytics}></Chart></div>);
 }
 
 export default Analytics;
