@@ -34,16 +34,25 @@ const getAnalytics = async () => {
 				webPropertyId: '~all',
 				auth: oauth2Client
 		});
-		const view = { id: data.items[0].id, website: data.items[0].websiteUrl }
+		const view = { id: data.items[0].id, website: data.items[0].websiteUrl };
+
+		console.log(view);
 		const { data: result } = await analytics.data.ga.get({
-			ids: 'ga:' + view.id,
+			ids: 'ga:' + process.env.viewID,
 		    auth: oauth2Client,
-		    'start-date': '80daysAgo',
-	    	'end-date': 'yesterday',
-	    	'metrics': 'ga:hits'
+		   'start-date': '30daysAgo',
+		   'end-date': 'today',
+		   'dimensions': 'ga:date',
+  		   'metrics': 'ga:pageviews',
 		});
-		console.log('Analitikaaa ');
-		console.log(result.rows);
+		const { rows } = result;
+		const response = rows.map((e) => {
+			return {
+				date: moment(e[0]).format("YYYY MM DD"),
+				count: parseInt(e[1], 10)
+			};
+		})
+		return response;
 
 	} catch (e) {
         console.log('Errorr', e);

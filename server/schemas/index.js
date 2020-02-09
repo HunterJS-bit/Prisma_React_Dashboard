@@ -6,12 +6,14 @@ const typeDefs = gql`
 
   scalar JSON
 
+  scalar Date
+
   type Query {
     hello: String
     mushorooms: [Mushroom]
     posts: [Post]
     users: [User]
-    analytics: String
+    analytics: [Chart]
     getConstributors: [User]
     getPosts(limit: Int, skip: Int): PostPagination
     getPost(id: String!): Post
@@ -63,6 +65,10 @@ const typeDefs = gql`
     author: User,
     imgSrc: String,
     isPublished: Boolean,
+  }
+  type Chart {
+    date: Date,
+    count: Int,
   }
   type Mushroom {
     id: Int,

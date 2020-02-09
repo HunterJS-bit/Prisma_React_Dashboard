@@ -10,7 +10,9 @@ const resolvers = {
     Query: {
         analytics: async (parent, args, ctx, info) => {
             console.log('Fetching analytics');
-            getAnalytics();
+            const data = await getAnalytics();
+            console.log(' Podacii ', data);
+            return data;
         },
         posts(parent, args, ctx, info) {
             return ctx.prisma.posts();
