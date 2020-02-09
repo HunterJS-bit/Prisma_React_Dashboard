@@ -11,7 +11,6 @@ const resolvers = {
         analytics: async (parent, args, ctx, info) => {
             console.log('Fetching analytics');
             const data = await getAnalytics();
-            console.log(' Podacii ', data);
             return data;
         },
         posts(parent, args, ctx, info) {

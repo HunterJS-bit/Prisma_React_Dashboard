@@ -8,27 +8,53 @@ const Chart = (props) => {
 
 	const chartRef = useRef(null);
 
-	const margin = 60;
-    const width = 1000 - 2 * margin;
-    const height = 600 - 2 * margin;
+	const margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = 600 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
 
 	useEffect(
         () => {
-        	const svg = d3.select(chartRef.current)
-    				.append("svg")
-    				.attr("width", width)
-    				.attr("height", height)
-    				.style("border", "1px solid black");
+        	
+ 			var svg = d3.select("#graph").append("svg")
+			    .attr("width", width + margin.left + margin.right)
+			    .attr("height", height + margin.top + margin.bottom)
+			  .append("g")
+			    .attr("transform", 
+			          "translate(" + margin.left + "," + margin.top + ")");
 
-    		const yScale = d3.scaleLinear()
-    				.range([height, 0])
-    				.domain([0, 100]);
+			var x = d3.scaleBand()
+			          .range([0, width])
+			          .padding(0.1);
+			var y = d3.scaleLinear()
+			          .range([height, 0]);
 
-    		svg.append('g')
-    			.call(d3.axisLeft(yScale));
+			 // Scale the range of the data in the domains
+			x.domain(chartData.map(function(d) { return d.date; }));
+			y.domain([0, d3.max(chartData, function(d) { return d.count; })]);
+
+			// add the x Axis
+			svg.append("g")
+			      .attr("transform", "translate(0," + height + ")")
+			      .call(d3.axisBottom(x));
+
+			// add the y Axis
+			svg.append("g")
+				      .call(d3.axisLeft(y));
+
+
+			 // append the rectangles for the bar chart
+			 svg.selectAll(".bar")
+			    .data(chartData)
+			    .enter().append("rect")
+			      .attr("class", "bar")
+			      .attr("x", function(d) { return x(d.date); })
+			      .attr("width", x.bandwidth())
+			      .attr("y", function(d) { return y(d.count); })
+			      .attr("height", function(d) { return height - y(d.count); });
+        
     });
 
-	return (<div className="chart" ref={chartRef}>
+	return (<div id="graph" className="chart" ref={chartRef}>
 		</div>);
 }
 

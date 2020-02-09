@@ -40,7 +40,7 @@ const getAnalytics = async () => {
 		const { data: result } = await analytics.data.ga.get({
 			ids: 'ga:' + process.env.viewID,
 		    auth: oauth2Client,
-		   'start-date': '30daysAgo',
+		   'start-date': '7daysAgo',
 		   'end-date': 'today',
 		   'dimensions': 'ga:date',
   		   'metrics': 'ga:pageviews',
@@ -48,10 +48,11 @@ const getAnalytics = async () => {
 		const { rows } = result;
 		const response = rows.map((e) => {
 			return {
-				date: moment(e[0]).format("YYYY MM DD"),
+				date: moment(e[0]).format("DD/MM"),
 				count: parseInt(e[1], 10)
 			};
-		})
+		});
+
 		return response;
 
 	} catch (e) {
