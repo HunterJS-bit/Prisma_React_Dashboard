@@ -36,7 +36,7 @@ const getAnalytics = async () => {
 		});
 		const view = { id: data.items[0].id, website: data.items[0].websiteUrl };
 
-		console.log(view);
+		// console.log(view);
 		const { data: result } = await analytics.data.ga.get({
 			ids: 'ga:' + process.env.viewID,
 		    auth: oauth2Client,
@@ -46,6 +46,19 @@ const getAnalytics = async () => {
   		   'metrics': 'ga:pageviews',
 		});
 		const { rows } = result;
+
+		const { data: test } = await analytics.data.ga.get({
+			ids: 'ga:' + process.env.viewID,
+		    auth: oauth2Client,
+		   'start-date': '30daysAgo',
+		   'end-date': 'today',
+		   'dimensions': 'ga:country',
+  		   'metrics': 'ga:users',
+		});
+
+
+		const { rows: countryData  } = test;
+
 		const response = rows.map((e) => {
 			return {
 				date: moment(e[0]).format("DD/MM"),
