@@ -15,7 +15,7 @@ var group1 = [{
 
 const PieChart = (props) => {
 
-	const pirRef = useRef(null);
+	const pieRef = useRef(null);
 
 	const data = props.data;
 
@@ -44,8 +44,10 @@ const PieChart = (props) => {
 	useEffect(() => {
 		console.log('Use effectt');
 
+		const childNode = pieRef.current.children.length;
 
-		const svg = d3.select('#pie')
+		if (!childNode) {
+			const svg = d3.select('#pie')
 				    .append('svg')
 				    .attr('width', width)
 				    .attr('height', height)
@@ -53,72 +55,73 @@ const PieChart = (props) => {
 				    .attr('transform', 'translate(' + (width / 2) +
 				        ',' + (height / 2) + ')');
 
-		const donutTip = d3.select("#pie").append("div")
-				    .attr("class", "donut-tip")
-				    .style("opacity", 0);
+			const donutTip = d3.select("#pie").append("div")
+					    .attr("class", "donut-tip")
+					    .style("opacity", 0);
 
 
-		const path = svg.selectAll('path')
-				    .data(pie(group1))
-				    .enter()
-				    .append('path')
-				    .attr('d', arc)
-				    .attr('fill', function (d, i) {
-				        return color(d.data.title);
-				    })
-				    .attr('transform', 'translate(0, 0)')
-				    .on('mouseover', function (d, i) {
-				        d3.select(this).transition()
-				            .duration('50')
-				            .attr('opacity', '.85');
-				        donutTip.transition()
-				            .duration(50)
-				            .style("opacity", 1);
-				        let num = (Math.round((d.value / d.data.all) * 100)).toString() + '%';
-				        donutTip.html(num)
-				            .style("left", (d3.event.pageX + 10) + "px")
-				            .style("top", (d3.event.pageY - 15) + "px");
+			const path = svg.selectAll('path')
+					    .data(pie(group1))
+					    .enter()
+					    .append('path')
+					    .attr('d', arc)
+					    .attr('fill', function (d, i) {
+					        return color(d.data.title);
+					    })
+					    .attr('transform', 'translate(0, 0)')
+					    .on('mouseover', function (d, i) {
+					        d3.select(this).transition()
+					            .duration('50')
+					            .attr('opacity', '.85');
+					        donutTip.transition()
+					            .duration(50)
+					            .style("opacity", 1);
+					        let num = (Math.round((d.value / d.data.all) * 100)).toString() + '%';
+					        donutTip.html(num)
+					            .style("left", (d3.event.pageX + 10) + "px")
+					            .style("top", (d3.event.pageY - 15) + "px");
 
-				    })
-				    .on('mouseout', function (d, i) {
-				        d3.select(this).transition()
-				            .duration('50')
-				            .attr('opacity', '1');
-				        donutTip.transition()
-				            .duration('50')
-				            .style("opacity", 0);
-				    });
+					    })
+					    .on('mouseout', function (d, i) {
+					        d3.select(this).transition()
+					            .duration('50')
+					            .attr('opacity', '1');
+					        donutTip.transition()
+					            .duration('50')
+					            .style("opacity", 0);
+					    });
 
-			const legend = svg.selectAll('.legend')
-							    .data(color.domain())
-							    .enter()
-							    .append('g')
-							    .attr('class', 'circle-legend')
-							    .attr('transform', function (d, i) {
-							        var height = legendRectSize + legendSpacing;
-							        var offset = height * color.domain().length / 2;
-							        var horz = -2 * legendRectSize - 13;
-							        var vert = i * height - offset;
-							        return 'translate(' + horz + ',' + vert + ')';
+				const legend = svg.selectAll('.legend')
+								    .data(color.domain())
+								    .enter()
+								    .append('g')
+								    .attr('class', 'circle-legend')
+								    .attr('transform', function (d, i) {
+								        var height = legendRectSize + legendSpacing;
+								        var offset = height * color.domain().length / 2;
+								        var horz = -2 * legendRectSize - 13;
+								        var vert = i * height - offset;
+								        return 'translate(' + horz + ',' + vert + ')';
+								    });
+
+				legend.append('circle')
+							    .style('fill', color)
+							    .style('stroke', color)
+							    .attr('cx', 0)
+							    .attr('cy', 0)
+							    .attr('r', '.5rem');
+
+							legend.append('text')
+							    .attr('x', legendRectSize + legendSpacing)
+							    .attr('y', legendRectSize - legendSpacing)
+							    .text(function (d) {
+							        return d;
 							    });
-
-			legend.append('circle')
-						    .style('fill', color)
-						    .style('stroke', color)
-						    .attr('cx', 0)
-						    .attr('cy', 0)
-						    .attr('r', '.5rem');
-
-						legend.append('text')
-						    .attr('x', legendRectSize + legendSpacing)
-						    .attr('y', legendRectSize - legendSpacing)
-						    .text(function (d) {
-						        return d;
-						    });
+		}
 
 	});
 
-	return (<div id="pie" className="pie-chart"><h1>Pie charty </h1></div>);
+	return (<div id="pie" className="pie-chart" ref={pieRef}></div>);
 }
 
 export default PieChart;
