@@ -58,15 +58,15 @@ const getAnalytics = async () => {
 
 
 		const { rows: countryData  } = test;
-
-		const response = rows.map((e) => {
+		const countryList = countryData.map((a) => { return { country: a[0], data: a[1] }; }).sort((a, b) => b.data - a.data);
+		const montlyVisits = rows.map((e) => {
 			return {
 				date: moment(e[0]).format("DD/MM"),
 				count: parseInt(e[1], 10)
 			};
 		});
 
-		return response;
+		return { monthly: montlyVisits, visitsByCountry: countryList };
 
 	} catch (e) {
         console.log('Errorr', e);

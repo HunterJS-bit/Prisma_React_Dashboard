@@ -13,7 +13,7 @@ const typeDefs = gql`
     mushorooms: [Mushroom]
     posts: [Post]
     users: [User]
-    analytics: [Chart]
+    analytics: Analytics
     getConstributors: [User]
     getPosts(limit: Int, skip: Int): PostPagination
     getPost(id: String!): Post
@@ -66,8 +66,16 @@ const typeDefs = gql`
     imgSrc: String,
     isPublished: Boolean,
   }
-  type Chart {
-    date: Date,
+  type Analytics {
+     monthly: [MonthlyVisits],
+     visitsByCountry: [VisitsByCountry]
+  }
+  type VisitsByCountry {
+    country: String,
+    data: Int,
+  }
+  type MonthlyVisits {
+    date: String,
     count: Int,
   }
   type Mushroom {

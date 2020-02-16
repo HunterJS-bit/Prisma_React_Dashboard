@@ -7,8 +7,14 @@ import PieChart from '../../common/PieChart';
 const GET_ANALYTICS = gql`
   {
     analytics {
-    	date,
-    	count
+      monthly {
+         date,
+         count
+      }
+      visitsByCountry {
+        country,
+        data,
+      }
     }
   }
 `;
@@ -19,11 +25,14 @@ const Analytics = () => {
 
 	if (loading) return 'Loading...';
   if (error) return 	`Error! ${error.message}`;
+
   const { analytics } = data;
 
+  console.log(analytics);
+
 	return (<div id="analytics"><h1> Analytics </h1>
-		<Chart data={analytics}></Chart>
-    <PieChart></PieChart></div>);
+		<Chart data={analytics.monthly}></Chart>
+    <PieChart data={analytics.visitsByCountry}></PieChart></div>);
 }
 
 export default Analytics;
