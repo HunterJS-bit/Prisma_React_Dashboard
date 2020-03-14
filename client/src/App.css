@@ -58,3 +58,7 @@ aside ul li {
   color: #fff;
     font-size: large;
 }
+
+#graph rect.bar {
+  fill: #1abc9c;
+}

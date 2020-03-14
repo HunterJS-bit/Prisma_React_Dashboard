@@ -4,9 +4,13 @@ import { Divider, Button } from 'antd';
 
 const UserTableActions = (props) => {
 
-return (<span>   <Button type="dashed">Edit User</Button>
-	<Divider/>
-    <Button type="danger">Remove User</Button></span>)
+	const editUser = () => {
+		console.log('Edit user');
+	}
+
+	return (<span><Button type="dashed" onClick={editUser}>Edit User</Button>
+				<Divider/>
+    			<Button type="danger">Remove User</Button></span>)
 
 }
 

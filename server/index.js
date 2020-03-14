@@ -35,6 +35,7 @@ app.get('/google/return',async (req, res) => {
 	console.log(':// GET ACCESS TOKEN ');
 	try {
 		const { tokens } = await oauth2Client.getToken(code);
+		console.log('Tokens ', tokens);
 		oauth2Client.setCredentials(tokens);
 	} catch(err) {
 		console.log('Error: ' + err)
