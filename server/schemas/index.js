@@ -94,10 +94,17 @@ const typeDefs = gql`
     email: String!,
     password: String!,
   }
+  input UserEdit {
+    name: String,
+    role: String,
+    email: String,
+    password: String,
+  }
   type Mutation {
     createUser(email: String):User,
     registerUser(input: UserCreate): User,
-    deleteUser(id: Int):User,
+    editUser(id: Int, input: UserEdit): User,
+    deleteUser(id: String!):User,
     loginUser(email: String, password: String):UserPayload,
     refreshToken(token: String): String,
     createPost(input: CreatePost): String,

@@ -3,6 +3,7 @@ import PostList from '../pages/Posts/PostList';
 import EditPost from '../pages/Posts/EditPost';
 import UserList from '../pages/Users/UserList';
 import CreateUser from '../pages/Users/CreateUser';
+import EditUser from '../pages/Users/EditUser';
 import Analytics from '../pages/Analytics/AnalyticsPage';
 
 
@@ -41,6 +42,12 @@ const dashRoutes = [
         name: 'UserCreate',
         route: '/user-create',
         component: CreateUser,
+        exact: true,
+    },
+     {
+        name: 'UserCreate',
+        route: '/user-edit/:id',
+        component: EditUser,
         exact: true,
     }
 ];

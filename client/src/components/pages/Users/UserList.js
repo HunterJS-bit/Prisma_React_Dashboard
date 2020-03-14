@@ -43,7 +43,7 @@ const columns = [
         dataIndex: 'action',
         key: 'action',
         render: (text, record) => (
-          <UserTableActions/>
+          <UserTableActions user={record} />
         ),
     },
 ];

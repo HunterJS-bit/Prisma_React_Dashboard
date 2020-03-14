@@ -80,8 +80,12 @@ const resolvers = {
         createUser: async (parent, args, ctx, info) => {
             await ctx.prisma.createUser({ email: args.email, password: '12313' });
         },
+        editUser: async (parent, args, ctx, info) => {
+            console.log('Edit userrrrr ');
+        },
         deleteUser: async (ctx, args) => {
-            await ctx.prisma.removeUser({ email: args.email });
+            console.log('Removing USER');
+           // await ctx.prisma.removeUser({ email: args.email });
         },
         loginUser: async (parent, args, ctx) => {
             let { email, password } = args;
