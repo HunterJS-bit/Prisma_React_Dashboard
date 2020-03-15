@@ -13,6 +13,7 @@ const typeDefs = gql`
     mushorooms: [Mushroom]
     posts: [Post]
     users: [User]
+    user(id: String): User
     analytics: Analytics
     getConstributors: [User]
     getPosts(limit: Int, skip: Int): PostPagination

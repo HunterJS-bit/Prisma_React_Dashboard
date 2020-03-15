@@ -20,6 +20,10 @@ const resolvers = {
         users: async (parent, args, ctx, info) => {
             return await ctx.prisma.users();
         },
+        user: async (parent, args, ctx, info) => {
+            const id = args.id;
+            return await ctx.prisma.user({ id: id });
+        },  
         getConstributors: async (parent, args, ctx, info) => {
             // GET CONSTRIBUTORS
             return await ctx.prisma.users({
@@ -83,9 +87,9 @@ const resolvers = {
         editUser: async (parent, args, ctx, info) => {
             console.log('Edit userrrrr ');
         },
-        deleteUser: async (ctx, args) => {
-            console.log('Removing USER');
-           // await ctx.prisma.removeUser({ email: args.email });
+        deleteUser: async (parent, args, ctx, info) => {
+            const id = args.id;;
+            return await ctx.prisma.deleteUser({ id });
         },
         loginUser: async (parent, args, ctx) => {
             let { email, password } = args;

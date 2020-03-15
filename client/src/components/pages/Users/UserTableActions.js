@@ -27,7 +27,6 @@ const UserTableActions = (props) => {
 	}
 
 	const removeUser = async () => {
-		console.log('remove Userr');
 		const { id } = currentUser;
 		await deleteUser({ variables: { id } });
 	}
