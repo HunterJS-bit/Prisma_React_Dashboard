@@ -1,5 +1,5 @@
 # Don't track content of these folders
-server/node_modules
+node_modules/
 server/generated
-client/node_modules
+.env
 .DS_Store
