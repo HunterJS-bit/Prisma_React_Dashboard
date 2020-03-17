@@ -87,6 +87,9 @@ const resolvers = {
         editUser: async (parent, args, ctx, info) => {
             console.log('Edit userrrrr ');
         },
+        updateUserPassword: async (parent, args, ctx, info) => {
+            console.log('Update user password');
+        },
         deleteUser: async (parent, args, ctx, info) => {
             const id = args.id;;
             return await ctx.prisma.deleteUser({ id });

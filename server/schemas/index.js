@@ -105,6 +105,7 @@ const typeDefs = gql`
     createUser(email: String):User,
     registerUser(input: UserCreate): User,
     editUser(id: Int, input: UserEdit): User,
+    updateUserPassword(password: String!): String,
     deleteUser(id: String!):User,
     loginUser(email: String, password: String):UserPayload,
     refreshToken(token: String): String,
