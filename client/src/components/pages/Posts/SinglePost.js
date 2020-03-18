@@ -30,6 +30,7 @@ class SinglePost extends React.Component {
     state = {
       author: null,
       comment: null,
+      postId: null,
     };
 
     onChange = (field, e) => {
@@ -43,9 +44,9 @@ class SinglePost extends React.Component {
                 if (loading) return null;
                 if (error) return `Error! ${error}`;
 
-                const { title, content, author } = data.getPost;
-
-                let editorState = !content ? EditorState.createEmpty() : EditorState.createWithContent(convertFromRaw(content));
+                const { id, title, content, author } = data.getPost;
+     
+                let editorState = Object.keys(content).length === 0 ? EditorState.createEmpty() : EditorState.createWithContent(convertFromRaw(content));
 
                 return (
                     <section className="single-post">
@@ -57,10 +58,10 @@ class SinglePost extends React.Component {
                             <p>Posted by: <b>{author ? author.name : ''}</b></p>
                         </div>
                          <Mutation mutation={POST_COMMENT}>
-                          {(addPost, { data }) => (
+                          {(postComment, { data }) => (
                           <form className="comment-section" onSubmit={e => {
                               e.preventDefault();
-                              addPost({ variables: { input: this.state }});
+                              postComment({ variables: { input: {...this.state, postId: id } }});
                             }}>
                               <label>Name</label>
                               <input onChange={(e) => this.onChange('author', e)} placeholder="Your Name"></input>

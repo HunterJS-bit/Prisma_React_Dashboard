@@ -37,6 +37,7 @@ type Comment {
   id: ID! @id
   author: String!
   content: String!
+  comments: [Comment!]! @relation(name: "CommentRelation")
   post: Post! @relation(link: INLINE)
 }
 

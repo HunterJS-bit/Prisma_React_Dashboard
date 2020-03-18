@@ -88,6 +88,7 @@ const typeDefs = gql`
   input Comment {
      author: String!,
      comment: String!,
+     postId: String!,
   }
   input UserCreate {
     name: String,

@@ -11,7 +11,6 @@ const resolvers = {
         analytics: async (parent, args, ctx, info) => {
             console.log('Fetching analytics');
             const data = await getAnalytics();
-            console.log(data);
             return data;
         },
         posts(parent, args, ctx, info) {
@@ -174,10 +173,14 @@ const resolvers = {
 
         },
         postComment: async (parent, args, ctx, info) => {
-            console.log('Posting comment');
-            const { comment, author } = args.input;
-            console.log(comment, author);
-            console.log(ctx.prisma.comment);
+            const { comment, author, postId } = args.input;
+            await ctx.prisma.createComment(
+                { author, 
+                  content: comment,
+                  post: {
+                    connect: { id: postId }
+                  }
+                });
 
         }
     },
