@@ -55,8 +55,16 @@ const typeDefs = gql`
     content: JSON,
     excerpt: String,
     author: User,
+    comments: [Comment],
     imgSrc: String,
     isPublished: Boolean,
+  }
+  type Comment {
+    id: String,
+    content: String!,
+    author: String,
+    comments: [Comment!]!,
+    post: Post!,
   }
   type Post {
     id: String,
@@ -64,6 +72,7 @@ const typeDefs = gql`
     content: JSON,
     excerpt: String,
     author: User,
+    comments: [Comment],
     imgSrc: String,
     isPublished: Boolean,
   }
@@ -80,12 +89,12 @@ const typeDefs = gql`
     count: Int,
   }
   type Mushroom {
-    id: Int,
+    id: String,
     name: String,
     type: Boolean,
     info: String,
   }
-  input Comment {
+  input CommentInput {
      author: String!,
      comment: String!,
      postId: String!,
@@ -113,7 +122,7 @@ const typeDefs = gql`
     createPost(input: CreatePost): String,
     removePost(id: String): String,
     updatePost(id:String, input: CreatePost): Post
-    postComment(input: Comment): String
+    postComment(input: CommentInput): String
   }
 `;
 

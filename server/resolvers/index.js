@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { getAnalytics } = require('../services/google-util');
 const cloudinaryUpload = require('../utils/cloudinaryUtil');
+const { fetchPost } = require('../services/postService');
 const GraphQLJSON = require('graphql-type-json');
 
 
@@ -55,12 +56,7 @@ const resolvers = {
             return posts;
         },
         getPost: async (parent, args, ctx, info) => {
-            if (args.id) {
-                const id = args.id;
-                const post = await ctx.prisma.post({ id });
-
-                return post;
-            }
+            return fetchPost(parent, args, ctx, info);
         },
         getUsers: async (parent, { limit, skip }, ctx, info) => {
             const allUsers = await ctx.prisma.users();
@@ -193,6 +189,9 @@ const resolvers = {
     Post: {
         author(parent, args, ctx, info) {
             return ctx.prisma.post({ id: parent.id }).author()
+        },
+        comments(parent, args, ctx, info) {
+            return ctx.prisma.post({ id: parent.id }).comments()
         },
     },
 };

@@ -10,6 +10,11 @@ query getPost($id: String!) {
       title
       content
       excerpt
+      comments {
+        id
+        author
+        content
+      }
       author {
           name
       }
@@ -45,6 +50,7 @@ class SinglePost extends React.Component {
                 if (error) return `Error! ${error}`;
 
                 const { id, title, content, author } = data.getPost;
+                console.log(data.getPost);
      
                 let editorState = Object.keys(content).length === 0 ? EditorState.createEmpty() : EditorState.createWithContent(convertFromRaw(content));
 
