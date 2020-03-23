@@ -2,4 +2,5 @@
 node_modules/
 server/generated
 .env
+.idea
 .DS_Store

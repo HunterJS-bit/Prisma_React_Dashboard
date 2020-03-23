@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import SideBar from './SideBar';
 import dashRoutes from '../router/dashboardRoutes';
-import { Layout, Menu, Icon } from 'antd';
+import { Layout } from 'antd';
 import {
     BrowserRouter as Router,
     Switch,

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import DropZone from '../../common/DropZone';
-import Editor from './../../common/Editor';
+import Editor from '../../common/Editor';
 import { Form, Input, Button, Select, Checkbox } from 'antd';
 
 const { Option } = Select;

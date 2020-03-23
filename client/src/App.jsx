@@ -1,6 +1,5 @@
 import React from 'react';
 import Home from './components/Home';
-import Header from './components/common/Header';
 import ApolloClient from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider } from '@apollo/react-hooks';
@@ -25,7 +24,6 @@ function App() {
       <ApolloProvider client={client}>
         <AppProvider>
           <div className="App">
-            <Header />
             <Home />
           </div>
         </AppProvider>
