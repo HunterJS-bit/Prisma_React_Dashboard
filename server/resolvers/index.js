@@ -23,11 +23,11 @@ const resolvers = {
         user: async (parent, args, ctx, info) => {
             const id = args.id;
             return await ctx.prisma.user({ id: id });
-        },  
+        },
         getConstributors: async (parent, args, ctx, info) => {
             // GET CONSTRIBUTORS
-            return await ctx.prisma.users({
-                where: { OR: [{ role: 'CONSTRIBUTOR' }, { role: 'ADMIN' }] },
+            return ctx.prisma.users({
+                where: {OR: [{role: 'CONSTRIBUTOR'}, {role: 'ADMIN'}]},
             });
         },
         mushorooms: () => {
@@ -171,7 +171,7 @@ const resolvers = {
         postComment: async (parent, args, ctx, info) => {
             const { comment, author, postId } = args.input;
             await ctx.prisma.createComment(
-                { author, 
+                { author,
                   content: comment,
                   post: {
                     connect: { id: postId }
