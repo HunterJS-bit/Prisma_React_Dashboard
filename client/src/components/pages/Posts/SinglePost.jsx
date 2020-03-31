@@ -2,6 +2,9 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { Query, Mutation } from 'react-apollo';
 import { Editor, EditorState, convertFromRaw } from "draft-js";
+import CommentForm from '../Comments/CommentForm';
+import CommentList from "../Comments/CommentsList";
+
 
 const GET_POST = gql`
 query getPost($id: String!) {
@@ -49,9 +52,9 @@ class SinglePost extends React.Component {
                 if (loading) return null;
                 if (error) return `Error! ${error}`;
 
-                const { id, title, content, author } = data.getPost;
+                const { id, title, content, author, comments } = data.getPost;
                 console.log(data.getPost);
-     
+
                 let editorState = Object.keys(content).length === 0 ? EditorState.createEmpty() : EditorState.createWithContent(convertFromRaw(content));
 
                 return (
@@ -63,19 +66,20 @@ class SinglePost extends React.Component {
                         <div className="post-author">
                             <p>Posted by: <b>{author ? author.name : ''}</b></p>
                         </div>
-                         <Mutation mutation={POST_COMMENT}>
-                          {(postComment, { data }) => (
-                          <form className="comment-section" onSubmit={e => {
-                              e.preventDefault();
-                              postComment({ variables: { input: {...this.state, postId: id } }});
-                            }}>
-                              <label>Name</label>
-                              <input onChange={(e) => this.onChange('author', e)} placeholder="Your Name"></input>
-                              <textarea onChange={(e) => this.onChange('comment', e)} placeholder="Your Comment"></textarea>
-                              <button type="submit">Leave comment</button>
-                          </form>
-                           )}
-                        </Mutation>
+                        <CommentList comments={comments}/>
+                        {/* <Mutation mutation={POST_COMMENT}>*/}
+                        {/*  {(postComment, { data }) => (*/}
+                        {/*  // <form className="comment-section" onSubmit={e => {*/}
+                        {/*  //     e.preventDefault();*/}
+                        {/*  //     postComment({ variables: { input: {...this.state, postId: id } }});*/}
+                        {/*  //   }}>*/}
+                        {/*  //     <label>Name</label>*/}
+                        {/*  //     <input onChange={(e) => this.onChange('author', e)} placeholder="Your Name"></input>*/}
+                        {/*  //     <textarea onChange={(e) => this.onChange('comment', e)} placeholder="Your Comment"></textarea>*/}
+                        {/*  //     <button type="submit">Leave comment</button>*/}
+                        {/*  // </form>*/}
+                        {/*   )}*/}
+                        {/*</Mutation>*/}
                     </section>
                 );
             }}
